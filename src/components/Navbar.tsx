@@ -9,20 +9,19 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="fixed top-0 w-full bg-white shadow-sm z-50 border-b border-gray-200">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-16">
-          <div className="flex-1">
-            <h1 className="text-2xl font-light text-gray-900">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex-shrink-0">
+            <h1 className="text-xl font-light text-gray-900 tracking-wide">
               Kürsat's Portfolio
             </h1>
           </div>
-
-          <ul className="flex-1 flex justify-center space-x-4 md:space-x-8">
+          <ul className=" md:flex space-x-8">
             <li>
               <button
                 onClick={() => scrollToSection('about')}
-                className="text-gray-700 hover:text-gray-900 transition-colors duration-300 text-sm md:text-lg font-light"
+                className="text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light text-base"
               >
                 Über mich
               </button>
@@ -30,7 +29,7 @@ const Navbar: React.FC = () => {
             <li>
               <button
                 onClick={() => scrollToSection('education')}
-                className="text-gray-700 hover:text-gray-900 transition-colors duration-300 text-sm md:text-lg font-light"
+                className="text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light text-base"
               >
                 Werdegang
               </button>
@@ -38,7 +37,7 @@ const Navbar: React.FC = () => {
             <li>
               <button
                 onClick={() => scrollToSection('projects')}
-                className="text-gray-700 hover:text-gray-900 transition-colors duration-300 text-sm md:text-lg font-light"
+                className="text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light text-base"
               >
                 Projekte
               </button>
@@ -46,14 +45,13 @@ const Navbar: React.FC = () => {
             <li>
               <button
                 onClick={() => scrollToSection('contact')}
-                className="text-gray-700 hover:text-gray-900 transition-colors duration-300 text-sm md:text-lg font-light"
+                className="text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light text-base"
               >
                 Kontakt
               </button>
             </li>
           </ul>
-
-          <div className="flex-1" />
+        
         </div>
       </div>
     </nav>

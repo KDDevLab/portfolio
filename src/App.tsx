@@ -5,14 +5,14 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white text-gray-900 font-sans">
       <Navbar />
-      
-      <main className="flex-1 mt-16 bg-white">
+      <main className="flex-1 mt-16">
         <Main />
-        <Footer />
       </main>
+      <Footer />
     </div>
   )
 }
+
 export default App
