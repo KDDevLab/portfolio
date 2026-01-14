@@ -117,19 +117,36 @@ function Main() {
                   </Stack>
                   <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap', gap: 2 }}>
                     <Button 
-                      variant="contained"
+                      variant="outlined"
                       size="large"
-                      endIcon={<ArrowForward />}
                       onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
                       sx={{ 
                         textTransform: 'none',
                         fontWeight: 500,
                         px: 4,
                         py: 1.5,
-                        borderRadius: 2
+                        borderRadius: 2,
+                        borderWidth: 2,
+                        '&:hover': { borderWidth: 2 }
                       }}
                     >
                       Projektübersicht
+                    </Button>
+                    <Button 
+                      variant="outlined"
+                      size="large"
+                      onClick={() => document.getElementById('education')?.scrollIntoView({ behavior: 'smooth' })}
+                      sx={{ 
+                        textTransform: 'none',
+                        fontWeight: 500,
+                        px: 4,
+                        py: 1.5,
+                        borderRadius: 2,
+                        borderWidth: 2,
+                        '&:hover': { borderWidth: 2 }
+                      }}
+                    >
+                      Werdegang
                     </Button>
                     <Button 
                       variant="outlined"
