@@ -40,7 +40,7 @@ function Main() {
                       lineHeight: 1.6
                     }}
                   >
-                    Junior Softwareentwickler & Wirtschaftsinformatiker aus Deutschland
+                    Junior Softwareentwickler & Wirtschaftsinformatiker
                   </Typography>
                   <Typography 
                     variant="body1" 
