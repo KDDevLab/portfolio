@@ -28,7 +28,7 @@ function Main() {
                       lineHeight: 1.2
                     }}
                   >
-                    Hi, ich bin <span style={{ color: '#60a5fa', fontWeight: 400 }}>Kürsat Darcan</span>
+                    <span style={{ color: '#60a5fa', fontWeight: 400 }}>Kürsat Darcan</span>
                   </Typography>
                   <Typography 
                     variant="h5" 
@@ -39,7 +39,7 @@ function Main() {
                       lineHeight: 1.6
                     }}
                   >
-                    Junior Softwareentwickler & Wirtschaftsinformatiker
+                    Junior Softwareentwickler | Bachelor of Science (Wirtschaftsinformatik)
                   </Typography>
                   <Typography 
                     variant="body1" 
@@ -50,9 +50,9 @@ function Main() {
                       lineHeight: 1.8
                     }}
                   >
-                    Ich bin Berufseinsteiger mit abgeschlossenem Studium der Wirtschaftsinformatik mit Schwerpunkt Software Engineering. 
-                    Als Junior Softwareentwickler habe ich Freude daran, mich neuen Herausforderungen zu stellen, Verantwortung zu 
-                    übernehmen und kontinuierlich dazuzulernen.
+                    Qualifizierter Absolvent mit abgeschlossenem Bachelorstudium der Wirtschaftsinformatik mit Schwerpunkt Software Engineering. 
+                    Die berufliche Tätigkeit ist gekennzeichnet durch ausgeprägte Leistungsbereitschaft, hohes Verantwortungsbewusstsein sowie 
+                    das Bestreben nach kontinuierlicher fachlicher Weiterentwicklung.
                   </Typography>
                   <Typography 
                     variant="body1" 
@@ -63,9 +63,10 @@ function Main() {
                       lineHeight: 1.8
                     }}
                   >
-                    Während meines dualen Studiums an der FHDW Mettmann konnte ich bereits praktische Erfahrung in der professionellen 
-                    Softwareentwicklung sammeln. Von 2022 bis 2025 war ich bei Hyand Solutions GmbH tätig und entwickelte 
-                    Softwarelösungen mit Oracle APEX, PL/SQL und modernen Webtechnologien.
+                    Im Rahmen des dualen Studiums an der Fachhochschule der Wirtschaft (FHDW) Mettmann wurden fundierte praktische Kenntnisse 
+                    in der professionellen Softwareentwicklung erworben. Der Zeitraum von 2022 bis 2025 war durch die Tätigkeit bei der 
+                    Hyand Solutions GmbH geprägt, mit Schwerpunkt auf der Entwicklung von Softwarelösungen unter Verwendung von Oracle APEX, 
+                    PL/SQL sowie modernen Webtechnologien.
                   </Typography>
                   <Stack direction="row" spacing={2} sx={{ mb: 4, flexWrap: 'wrap', gap: 1.5 }}>
                     <Chip 
@@ -128,7 +129,7 @@ function Main() {
                         borderRadius: 2
                       }}
                     >
-                      Projekte ansehen
+                      Projektübersicht
                     </Button>
                     <Button 
                       variant="outlined"
@@ -144,7 +145,7 @@ function Main() {
                         '&:hover': { borderWidth: 2 }
                       }}
                     >
-                      Kontakt
+                      Kontaktaufnahme
                     </Button>
                   </Stack>
                 </Box>
@@ -350,7 +351,7 @@ function Main() {
                               </Typography>
                               <Typography variant="body2" sx={{ color: 'grey.400', fontWeight: 300, lineHeight: 1.6 }}>
                                 <strong style={{ color: '#10b981' }}>Praktikum</strong> - Telekommunikation Technik<br />
-                                Erste Einblicke in die Telekommunikationsbranche und technische Systeme.
+                                Erwerb grundlegender Kenntnisse in der Telekommunikationsbranche und technischen Systemen.
                               </Typography>
                             </Box>
                           </Box>
@@ -435,7 +436,7 @@ function Main() {
                                 Berufskolleg für Technik Moers
                               </Typography>
                               <Typography variant="body2" sx={{ color: 'grey.400', fontWeight: 300, lineHeight: 1.6 }}>
-                                Fachabitur + Berufsabschluss nach Landesrecht NRW als Informationstechnische Assistent. 
+                                Fachabitur + Berufsabschluss nach Landesrecht NRW als Informationstechnischer Assistent
                               </Typography>
                             </Box>
                           </Box>
@@ -528,7 +529,7 @@ function Main() {
                                 • Webentwicklung mit HTML & CSS
                               </Typography>
                               <Typography variant="body2" sx={{ color: 'grey.400', fontWeight: 300, lineHeight: 1.6 }}>
-                                Sammeln erster praktischer Erfahrungen in der Webentwicklung und modernen JavaScript-Frameworks.
+                                Erwerb praktischer Erfahrungen in der Webentwicklung und modernen JavaScript-Frameworks.
                               </Typography>
                             </Box>
                           </Box>
@@ -614,7 +615,7 @@ function Main() {
                               </Typography>
                               <Typography variant="body2" sx={{ color: 'grey.400', fontWeight: 300, lineHeight: 1.6 }}>
                                 <strong style={{ color: '#06b6d4' }}>Aushilfe / Lagerhilfe</strong><br />
-                                Neben dem Studium im Lager gearbeitet.
+                                Nebentätigkeit während des Studiums im Bereich Lagerlogistik.
                               </Typography>
                             </Box>
                           </Box>
@@ -705,10 +706,10 @@ function Main() {
                                 <strong style={{ color: '#ec4899' }}>Junior Berater</strong> bei Hyand Solutions GmbH
                               </Typography>
                               <Typography variant="body2" sx={{ color: 'grey.400', fontWeight: 300, lineHeight: 1.6 }}>
-                                • Entwicklung von APEX-Anwendungen<br />
+                                • Entwicklung von Oracle APEX-Anwendungen<br />
                                 • PL/SQL Entwicklung & Datenmodellierung<br />
                                 • Konzeption von Webanwendungen<br />
-                                • Praxisnahe Verbindung von Studium und professioneller Softwareentwicklung
+                                • Praxisorientierte Verbindung von Studium und professioneller Softwareentwicklung
                               </Typography>
                             </Box>
                           </Box>
@@ -824,7 +825,7 @@ function Main() {
                 {[
                   {
                     title: 'Time2Meet',
-                    description: 'Gruppen-Planer für gemeinsame Aktivitäten. Entwickelt im Rahmen der Module Software Testing & DevOps sowie Software Engineering Projects.',
+                    description: 'Gruppenplanungssystem für gemeinsame Aktivitäten. Entwickelt im Rahmen der Module Software Testing & DevOps sowie Software Engineering Projects.',
                     tech: ['Next.js', 'TypeScript', 'Cypress'],
                     gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     color: '#667eea',
@@ -833,7 +834,7 @@ function Main() {
                   },
                   {
                     title: 'Algorithmischer Handel',
-                    description: 'Machine Learning Projekt zur Vorhersage von Aktienkursen mit technischen Indikatoren und Rohdaten. Entwickelt für Data Analysis and Machine Learning.',
+                    description: 'Machine-Learning-Projekt zur Prognose von Aktienkursen mittels technischer Indikatoren und Rohdaten. Entwickelt für das Modul Data Analysis and Machine Learning.',
                     tech: ['Python', 'Machine Learning', 'Jupyter'],
                     gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
                     color: '#f093fb',
@@ -987,7 +988,7 @@ function Main() {
                             transition: 'transform 0.2s ease'
                           }}
                         >
-                          Auf GitHub ansehen
+                          Auf GitHub verfügbar
                         </Button>
                       </CardContent>
                     </Card>
@@ -1023,7 +1024,7 @@ function Main() {
                 lineHeight: 1.6
               }}
             >
-              Interessiert an einer Zusammenarbeit? Ich freue mich auf deine Nachricht!
+              Für Anfragen bezüglich beruflicher Zusammenarbeit stehe ich gerne zur Verfügung.
             </Typography>
             
             <Stack direction="row" spacing={3} justifyContent="center" sx={{ mb: 6 }}>

@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
         <Toolbar sx={{ justifyContent: 'space-between', minHeight: '80px' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <h1 className="text-2xl font-light text-gray-100 tracking-tight">
-              Kürsat´s Portfolio
+              Kürsat Darcan, B.Sc.
             </h1>
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
@@ -50,11 +50,11 @@ const Navbar: React.FC = () => {
                   }
                 }}
               >
-                Home
+                Startseite
               </Button>
             ) : (
               [
-                { label: 'Über mich', id: 'about' },
+                { label: 'Profil', id: 'about' },
                 { label: 'Werdegang', id: 'education' },
                 { label: 'Projekte', id: 'projects' },
                 { label: 'Kontakt', id: 'contact' }
