@@ -1,6 +1,13 @@
 import React from 'react';
+import { AppBar, Toolbar, Button, Container, Box } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Home } from '@mui/icons-material';
 
 const Navbar: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isLegalPage = location.pathname === '/impressum' || location.pathname === '/datenschutz';
+
   const scrollToSection = (sectionId: string): void => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -9,52 +16,73 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex-shrink-0">
-            <h1 className="text-xl font-light text-gray-900 tracking-wide">
-              Kürsat's Portfolio
+    <AppBar 
+      position="fixed" 
+      elevation={0}
+      sx={{ 
+        bgcolor: 'rgba(15, 23, 42, 0.95)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+      }}
+    >
+      <Container maxWidth="xl">
+        <Toolbar sx={{ justifyContent: 'space-between', minHeight: '80px' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <h1 className="text-2xl font-light text-gray-100 tracking-tight">
+              Kürsat´s Portfolio
             </h1>
-          </div>
-          <ul className=" md:flex space-x-8">
-            <li>
-              <button
-                onClick={() => scrollToSection('about')}
-                className="text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light text-base"
+          </Box>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
+            {isLegalPage ? (
+              <Button
+                startIcon={<Home />}
+                onClick={() => navigate('/')}
+                sx={{
+                  color: 'text.secondary',
+                  fontWeight: 300,
+                  fontSize: '0.95rem',
+                  textTransform: 'none',
+                  px: 2,
+                  py: 1,
+                  '&:hover': {
+                    color: 'primary.main',
+                    bgcolor: 'rgba(25, 118, 210, 0.04)'
+                  }
+                }}
               >
-                Über mich
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => scrollToSection('education')}
-                className="text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light text-base"
-              >
-                Werdegang
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => scrollToSection('projects')}
-                className="text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light text-base"
-              >
-                Projekte
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light text-base"
-              >
-                Kontakt
-              </button>
-            </li>
-          </ul>
-        
-        </div>
-      </div>
-    </nav>
+                Home
+              </Button>
+            ) : (
+              [
+                { label: 'Über mich', id: 'about' },
+                { label: 'Werdegang', id: 'education' },
+                { label: 'Projekte', id: 'projects' },
+                { label: 'Kontakt', id: 'contact' }
+              ].map((item) => (
+                <Button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  sx={{
+                    color: 'text.secondary',
+                    fontWeight: 300,
+                    fontSize: '0.95rem',
+                    textTransform: 'none',
+                    px: 2,
+                    py: 1,
+                    '&:hover': {
+                      color: 'primary.main',
+                      bgcolor: 'rgba(25, 118, 210, 0.04)'
+                    }
+                  }}
+                >
+                  {item.label}
+                </Button>
+              ))
+            )}
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 

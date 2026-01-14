@@ -1,20 +1,69 @@
+import { Box, Container, Typography, Link, Stack} from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+
 function Footer() {
+
   return (
-    <footer className="bg-gray-900 text-gray-400 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <span className="text-sm font-light mb-4 md:mb-0">© {new Date().getFullYear()} Kürsat</span>
-          <div className="flex space-x-6">
-            <button className="text-sm hover:text-white transition-colors duration-200 font-light">
+    <Box
+      component="footer"
+      sx={{
+        bgcolor: 'background.paper',
+        color: 'text.secondary',
+        py: 4,
+        borderTop: '1px solid rgba(255, 255, 255, 0.05)'
+      }}
+    >
+      <Container maxWidth="xl">
+        <Stack 
+          direction={{ xs: 'column', md: 'row' }} 
+          justifyContent="space-between" 
+          alignItems="center"
+          spacing={2}
+        >
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Typography variant="body2" sx={{ fontWeight: 300, fontSize: '0.8rem', color: 'grey.500' }}>
+              © {new Date().getFullYear()} Kürsat Darcan
+            </Typography>
+          </Stack>
+          <Stack direction="row" spacing={3}>
+            <Link
+              component={RouterLink}
+              to="/datenschutz"
+              underline="hover"
+              sx={{
+                color: 'grey.500',
+                fontWeight: 300,
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'grey.300'
+                },
+                transition: 'color 0.2s'
+              }}
+            >
               Datenschutz
-            </button>
-            <button className="text-sm hover:text-white transition-colors duration-200 font-light">
+            </Link>
+            <Link
+              component={RouterLink}
+              to="/impressum"
+              underline="hover"
+              sx={{
+                color: 'grey.500',
+                fontWeight: 300,
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'grey.300'
+                },
+                transition: 'color 0.2s'
+              }}
+            >
               Impressum
-            </button>
-          </div>
-        </div>
-      </div>
-    </footer>
+            </Link>
+          </Stack>
+        </Stack>
+      </Container>
+    </Box>
   );
 }
 
