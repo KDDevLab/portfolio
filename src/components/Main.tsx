@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Card, CardContent, Typography, Container, Box, Chip, Stack, Fade, Zoom } from '@mui/material';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
