@@ -1128,6 +1128,7 @@ function Main() {
                     color: "#667eea",
                     role: "Full-Stack Development & Projektmanagement",
                     github: "https://github.com/SEPMFWS422A/time2meet",
+                    isUniversityProject: true,
                   },
                   {
                     title: "Algorithmischer Handel",
@@ -1140,6 +1141,7 @@ function Main() {
                     role: "Data Analysis & ML-Modellierung",
                     github:
                       "https://github.com/KD-Studies/Algorithmischer-Handel",
+                    isUniversityProject: true,
                   },
                 ].map((project, index) => (
                   <Zoom in timeout={800 + index * 200} key={index}>
@@ -1200,6 +1202,24 @@ function Main() {
                           },
                         }}
                       >
+                        {project.isUniversityProject && (
+                          <Chip
+                            label="Hochschulprojekt"
+                            size="small"
+                            sx={{
+                              position: "absolute",
+                              top: 12,
+                              right: 12,
+                              bgcolor: "rgba(255, 255, 255, 0.95)",
+                              color: "rgba(0, 0, 0, 0.87)",
+                              fontWeight: 600,
+                              fontSize: "0.7rem",
+                              zIndex: 2,
+                              backdropFilter: "blur(10px)",
+                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                            }}
+                          />
+                        )}
                         <Code
                           sx={{
                             fontSize: 80,
