@@ -9,6 +9,8 @@ import {
   Stack,
   Fade,
   Zoom,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
@@ -28,12 +30,15 @@ import {
 } from "@mui/icons-material";
 
 function Main() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
     <div className="w-full">
       {/* About Me Section */}
       <section
         id="about"
-        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-900 to-blue-950 py-20 px-4"
+        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-900 to-blue-950 pt-24 md:pt-32 pb-20 px-4"
       >
         <Container maxWidth="xl">
           <Fade in timeout={1000}>
@@ -64,6 +69,7 @@ function Main() {
                   <Typography
                     variant="h5"
                     sx={{
+                      fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" },
                       fontWeight: 300,
                       color: "grey.400",
                       mb: 2,
@@ -119,6 +125,7 @@ function Main() {
                         color: "primary.light",
                         border: "1px solid rgba(96, 165, 250, 0.3)",
                         fontWeight: 500,
+                        fontSize: { xs: "0.7rem", sm: "0.8125rem" },
                       }}
                     />
                     <Chip
@@ -128,6 +135,7 @@ function Main() {
                         color: "primary.light",
                         border: "1px solid rgba(96, 165, 250, 0.3)",
                         fontWeight: 500,
+                        fontSize: { xs: "0.7rem", sm: "0.8125rem" },
                       }}
                     />
                     <Chip
@@ -137,6 +145,7 @@ function Main() {
                         color: "primary.light",
                         border: "1px solid rgba(96, 165, 250, 0.3)",
                         fontWeight: 500,
+                        fontSize: { xs: "0.7rem", sm: "0.8125rem" },
                       }}
                     />
                     <Chip
@@ -146,6 +155,7 @@ function Main() {
                         color: "primary.light",
                         border: "1px solid rgba(96, 165, 250, 0.3)",
                         fontWeight: 500,
+                        fontSize: { xs: "0.7rem", sm: "0.8125rem" },
                       }}
                     />
                     <Chip
@@ -155,11 +165,12 @@ function Main() {
                         color: "primary.light",
                         border: "1px solid rgba(96, 165, 250, 0.3)",
                         fontWeight: 500,
+                        fontSize: { xs: "0.7rem", sm: "0.8125rem" },
                       }}
                     />
                   </Stack>
                   <Stack
-                    direction="row"
+                    direction={{ xs: "column", sm: "row" }}
                     spacing={2}
                     sx={{ flexWrap: "wrap", gap: 2 }}
                   >
@@ -174,10 +185,12 @@ function Main() {
                       sx={{
                         textTransform: "none",
                         fontWeight: 500,
-                        px: 4,
+                        px: { xs: 3, sm: 4 },
                         py: 1.5,
                         borderRadius: 2,
                         borderWidth: 2,
+                        fontSize: { xs: "0.875rem", sm: "1rem" },
+                        width: { xs: "100%", sm: "auto" },
                         "&:hover": { borderWidth: 2 },
                       }}
                     >
@@ -194,10 +207,12 @@ function Main() {
                       sx={{
                         textTransform: "none",
                         fontWeight: 500,
-                        px: 4,
+                        px: { xs: 3, sm: 4 },
                         py: 1.5,
                         borderRadius: 2,
                         borderWidth: 2,
+                        fontSize: { xs: "0.875rem", sm: "1rem" },
+                        width: { xs: "100%", sm: "auto" },
                         "&:hover": { borderWidth: 2 },
                       }}
                     >
@@ -214,10 +229,12 @@ function Main() {
                       sx={{
                         textTransform: "none",
                         fontWeight: 500,
-                        px: 4,
+                        px: { xs: 3, sm: 4 },
                         py: 1.5,
                         borderRadius: 2,
                         borderWidth: 2,
+                        fontSize: { xs: "0.875rem", sm: "1rem" },
+                        width: { xs: "100%", sm: "auto" },
                         "&:hover": { borderWidth: 2 },
                       }}
                     >
@@ -225,7 +242,7 @@ function Main() {
                     </Button>
                   </Stack>
                 </Box>
-                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Box sx={{ display: { xs: "none", md: "flex" }, justifyContent: "center" }}>
                   <Box
                     sx={{
                       width: 320,
@@ -264,17 +281,17 @@ function Main() {
               <Typography
                 variant="h2"
                 sx={{
-                  fontSize: { xs: "2.5rem", md: "3.5rem" },
+                  fontSize: { xs: "2rem", md: "3.5rem" },
                   fontWeight: 300,
                   textAlign: "center",
-                  mb: 8,
+                  mb: { xs: 4, md: 8 },
                   color: "white",
                 }}
               >
                 Mein Werdegang
               </Typography>
 
-              <Timeline position="alternate">
+              <Timeline position={isMobile ? "right" : "alternate"}>
                 {/* Item 1 - Anne-Frank-Gesamtschule */}
                 <TimelineItem>
                   <TimelineOppositeContent
@@ -283,6 +300,7 @@ function Main() {
                       color: "primary.light",
                       fontWeight: 600,
                       fontSize: "0.875rem",
+                      display: { xs: "none", md: "block" },
                     }}
                   >
                     06.2013 - 06.2019
@@ -383,6 +401,7 @@ function Main() {
                       color: "#10b981",
                       fontWeight: 600,
                       fontSize: "0.875rem",
+                      display: { xs: "none", md: "block" },
                     }}
                   >
                     12.2017
@@ -494,6 +513,7 @@ function Main() {
                       color: "secondary.light",
                       fontWeight: 600,
                       fontSize: "0.875rem",
+                      display: { xs: "none", md: "block" },
                     }}
                   >
                     08.2019 - 06.2022
@@ -599,6 +619,7 @@ function Main() {
                       color: "#fbbf24",
                       fontWeight: 600,
                       fontSize: "0.875rem",
+                      display: { xs: "none", md: "block" },
                     }}
                   >
                     06.2021 - 09.2021
@@ -735,6 +756,7 @@ function Main() {
                       color: "#06b6d4",
                       fontWeight: 600,
                       fontSize: "0.875rem",
+                      display: { xs: "none", md: "block" },
                     }}
                   >
                     06.2022 - 05.2025
@@ -846,6 +868,7 @@ function Main() {
                       color: "#ec4899",
                       fontWeight: 600,
                       fontSize: "0.875rem",
+                      display: { xs: "none", md: "block" },
                     }}
                   >
                     09.2022 - 09.2025
@@ -987,6 +1010,7 @@ function Main() {
                       color: "#f97316",
                       fontWeight: 600,
                       fontSize: "0.875rem",
+                      display: { xs: "none", md: "block" },
                     }}
                   >
                     09.2025 - Heute
@@ -1357,7 +1381,7 @@ function Main() {
             </Typography>
 
             <Stack
-              direction="row"
+              direction={{ xs: "column", sm: "row" }}
               spacing={3}
               justifyContent="center"
               sx={{ mb: 6 }}
@@ -1373,6 +1397,8 @@ function Main() {
                   py: 1.5,
                   borderRadius: 2,
                   borderWidth: 2,
+                  fontSize: { xs: "0.875rem", sm: "1rem" },
+                  width: { xs: "100%", sm: "auto" },
                   "&:hover": { borderWidth: 2 },
                 }}
               >
@@ -1390,6 +1416,8 @@ function Main() {
                   py: 1.5,
                   borderRadius: 2,
                   borderWidth: 2,
+                  fontSize: { xs: "0.875rem", sm: "1rem" },
+                  width: { xs: "100%", sm: "auto" },
                   "&:hover": { borderWidth: 2 },
                 }}
               >
@@ -1407,6 +1435,8 @@ function Main() {
                   py: 1.5,
                   borderRadius: 2,
                   borderWidth: 2,
+                  fontSize: { xs: "0.875rem", sm: "1rem" },
+                  width: { xs: "100%", sm: "auto" },
                   "&:hover": { borderWidth: 2 },
                 }}
               >
