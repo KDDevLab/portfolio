@@ -24,17 +24,14 @@ function Footer() {
       flexWrap: 'wrap',
       gap: 16,
     }}>
-      {/* Left — Name */}
       <div style={{ fontFamily: font.sans, fontWeight: 700, fontSize: '0.95rem', color: C.white }}>
         Kürsat Darcan<span style={{ color: C.cyan }}>.</span>
       </div>
 
-      {/* Center — Copyright */}
       <div style={{ fontFamily: font.mono, fontSize: '0.6rem', color: C.grey, letterSpacing: '0.06em' }}>
         © {new Date().getFullYear()} — Alle Rechte vorbehalten
       </div>
 
-      {/* Right — Legal links */}
       <div style={{ display: 'flex', gap: 24 }}>
         <FooterLink to="/datenschutz" label="Datenschutz" />
         <FooterLink to="/impressum"   label="Impressum"   />

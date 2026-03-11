@@ -34,7 +34,6 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Lock body scroll when drawer open
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -47,7 +46,6 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* ── NAV ── */}
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 500,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -59,7 +57,6 @@ const Navbar: React.FC = () => {
           : '1px solid rgba(255,255,255,0.04)',
         transition: 'border-color 0.3s',
       }}>
-        {/* Logo */}
         <button
           onClick={() => isLegal ? navigate('/') : scrollTo('about')}
           style={{
@@ -71,9 +68,7 @@ const Navbar: React.FC = () => {
           Kürsat Darcan<span style={{ color: C.cyan }}>.</span>
         </button>
 
-        {/* Desktop links */}
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          {/* Desktop — hidden on mobile via CSS below */}
           <div className="kd-nav-desktop" style={{ display: 'flex', gap: 4 }}>
             {isLegal ? (
               <NavBtn label="← Startseite" onClick={() => navigate('/')} />
@@ -84,7 +79,6 @@ const Navbar: React.FC = () => {
             )}
           </div>
 
-          {/* Hamburger — mobile only */}
           <button
             className="kd-nav-hamburger"
             onClick={() => setOpen(true)}
@@ -102,8 +96,6 @@ const Navbar: React.FC = () => {
         </div>
       </nav>
 
-      {/* ── MOBILE DRAWER ── */}
-      {/* Overlay */}
       <div
         onClick={() => setOpen(false)}
         style={{
@@ -113,7 +105,6 @@ const Navbar: React.FC = () => {
           transition: 'opacity 0.25s',
         }}
       />
-      {/* Panel */}
       <div style={{
         position: 'fixed', top: 0, right: 0, bottom: 0, zIndex: 700,
         width: 280,
@@ -123,7 +114,6 @@ const Navbar: React.FC = () => {
         transition: 'transform 0.3s cubic-bezier(0.4,0,0.2,1)',
         display: 'flex', flexDirection: 'column',
       }}>
-        {/* Drawer header */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '0 24px', height: 64,
@@ -137,7 +127,6 @@ const Navbar: React.FC = () => {
           </button>
         </div>
 
-        {/* Drawer links */}
         <nav style={{ padding: '24px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
           {isLegal ? (
             <DrawerBtn label="← Startseite" onClick={() => { navigate('/'); setOpen(false); }} />
@@ -148,7 +137,6 @@ const Navbar: React.FC = () => {
           )}
         </nav>
 
-        {/* Drawer footer */}
         <div style={{ marginTop: 'auto', padding: '24px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
           <div style={{ fontFamily: font.sans, fontSize: '0.82rem', fontWeight: 600, color: C.white, marginBottom: 4 }}>
             Kürsat Darcan<span style={{ color: C.cyan }}>.</span>
@@ -159,7 +147,6 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Responsive styles */}
       <style>{`
         @media (max-width: 768px) {
           .kd-nav-desktop { display: none !important; }
@@ -170,7 +157,6 @@ const Navbar: React.FC = () => {
   );
 };
 
-// ── Small helpers ──────────────────────────────────────────────────
 function NavBtn({ label, onClick }: { label: string; onClick: () => void }) {
   const [hov, setHov] = useState(false);
   return (

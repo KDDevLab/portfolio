@@ -19,22 +19,22 @@ const font = {
 
 const skills = [
   { label: "Oracle APEX / PL/SQL", advanced: true  },
-  { label: "HTML / CSS",           advanced: false },
-  { label: "Java",                 advanced: false },
-  { label: "JavaScript",           advanced: false },
-  { label: "GitHub",               advanced: false },
+  { label: "HTML / CSS",           advanced: true },
+  { label: "Java",                 advanced: true },
+  { label: "JavaScript",           advanced: true },
+  { label: "GitHub",               advanced: true },
 ];
 
 const stats = [
-  { label: "Abschluss",  value: "B.Sc.",  accent: "2,5",          bar: 75  },
-  { label: "Erfahrung",  value: "",       accent: "3 Jahre",       bar: 55  },
-  { label: "Haupttech",  value: "Oracle", accent: "APEX",          bar: 85  },
-  { label: "Status",     value: "",       accent: "Open to Work",  bar: 100 },
+  { label: "Abschluss",  value: "B.Sc.",   accent: "2,5",    bar: 75  },
+  { label: "Erfahrung",  value: "3",       accent: "Jahre",  bar: 55  },
+  { label: "Haupttech",  value: "Oracle",  accent: "APEX",   bar: 85  },
+  { label: "Status",     value: "Open to", accent: " Work",  bar: 100 },
 ];
 
 const timelineItems = [
   {
-    date: "06.2013 – 06.2019", side: "right" as const, type: "edu",
+    date: "06.2013 - 06.2019", side: "right" as const, type: "edu",
     company: "Anne-Frank-Gesamtschule Rheinkamp",
     role: "Realschulabschluss", desc: null,
   },
@@ -45,31 +45,31 @@ const timelineItems = [
     desc: "Erwerb grundlegender Kenntnisse in der Telekommunikationsbranche und technischen Systemen.",
   },
   {
-    date: "08.2019 – 06.2022", side: "right" as const, type: "edu",
+    date: "08.2019 - 06.2022", side: "right" as const, type: "edu",
     company: "Berufskolleg für Technik Moers",
     role: "Fachabitur + Informationstechnischer Assistent",
     desc: "Berufsabschluss nach Landesrecht NRW",
   },
   {
-    date: "06.2021 – 09.2021", side: "left" as const, type: "job",
+    date: "06.2021 - 09.2021", side: "left" as const, type: "job",
     company: "Erste Praxiserfahrungen",
     role: "Praktika & Projekterfahrung",
-    desc: "Curv UG – Entwicklung mit Vue.js Framework\nEuroweb – Webentwicklung mit HTML & CSS",
+    desc: "Curv UG - Entwicklung mit Vue.js Framework\nEuroweb - Webentwicklung mit HTML & CSS",
   },
   {
-    date: "06.2022 – 05.2025", side: "right" as const, type: "job",
+    date: "06.2022 - 05.2025", side: "right" as const, type: "job",
     company: "Deutsche Post AG",
     role: "Aushilfe / Lagerhilfe",
     desc: "Nebentätigkeit während des Studiums",
   },
   {
-    date: "09.2022 – 09.2025", side: "left" as const, type: "main",
+    date: "09.2022 - 09.2025", side: "left" as const, type: "main",
     company: "FHDW Mettmann & Hyand Solutions GmbH",
     role: "Dualer Student (Bachelor) + Junior Berater",
     desc: "Wirtschaftsinformatik Software Engineering — Note 2,5\nOracle APEX-Entwicklung · PL/SQL & Datenmodellierung · Konzeption von Webanwendungen",
   },
   {
-    date: "09.2025 – Heute", side: "right" as const, type: "current",
+    date: "09.2025 - Heute", side: "right" as const, type: "current",
     company: "Taxifahrer (Minijob)",
     role: "Übergangsphase", desc: null,
   },
@@ -345,7 +345,7 @@ function Main() {
           <div style={{ fontFamily: font.sans, fontSize: "0.86rem", lineHeight: 1.9, color: C.grey2, maxWidth: 520, marginBottom: 32, padding: "16px 20px", background: "rgba(0,212,255,0.03)", border: "1px solid rgba(0,212,255,0.08)", borderRadius: 3 }}>
             Qualifizierter Absolvent mit abgeschlossenem Bachelorstudium der
             Wirtschaftsinformatik, Schwerpunkt Software Engineering. 3 Jahre
-            Berufserfahrung bei Hyand Solutions GmbH — Oracle APEX, PL/SQL
+            Berufserfahrung bei Hyand Solutions GmbH - Oracle APEX, PL/SQL
             sowie moderne Webtechnologien.
           </div>
 
@@ -363,7 +363,7 @@ function Main() {
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             {[
-              { label: "Werdegang",  id: "education", primary: true  },
+              { label: "Werdegang",  id: "education", primary: false  },
               { label: "Projekte",   id: "projects",  primary: false },
               { label: "Kontakt",    id: "contact",   primary: false },
             ].map(btn => (

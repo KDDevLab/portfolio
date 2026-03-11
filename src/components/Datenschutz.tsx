@@ -20,7 +20,6 @@ function Datenschutz() {
     <div style={{ minHeight: '100vh', background: C.bg, color: C.white, fontFamily: font.sans, paddingTop: 80 }}>
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '60px 40px' }}>
 
-        {/* Back button */}
         <button
           onClick={() => navigate('/')}
           style={{
@@ -36,18 +35,15 @@ function Datenschutz() {
           ← Zurück
         </button>
 
-        {/* Eyebrow */}
         <div style={{ fontFamily: font.mono, fontSize: '0.62rem', color: C.cyan, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
           Legal
           <span style={{ width: 40, height: 1, background: C.cyan, display: 'inline-block' }} />
         </div>
 
-        {/* Title */}
         <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(2.5rem,5vw,4rem)', fontWeight: 700, letterSpacing: '-0.03em', color: C.white, marginBottom: 48, lineHeight: 1 }}>
           Datenschutz<span style={{ color: C.cyan }}>.</span>
         </h1>
 
-        {/* Content */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
 
           <LegalSection title="1. Datenschutz auf einen Blick">
@@ -93,7 +89,6 @@ function Datenschutz() {
             <p>Der Einsatz erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b und f DSGVO. Weitere Informationen: <a href="https://www.netcup.de/kontakt/datenschutzerklaerung.php" target="_blank" rel="noopener noreferrer" style={{ color: C.cyan, textDecoration: 'none' }}>netcup Datenschutzerklärung</a></p>
           </LegalSection>
 
-          {/* Date stamp */}
           <div style={{ fontFamily: font.mono, fontSize: '0.58rem', color: '#444', letterSpacing: '0.06em', paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
             Stand: {new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' })}
           </div>
