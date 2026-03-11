@@ -434,9 +434,9 @@ function Main() {
         </div>
       </section>
 
-      <section id="contact" style={{ minHeight: "100vh", padding: "120px 60px", background: C.bg2, display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+      <section id="contact" style={{ minHeight: "100vh", padding: "120px 60px", background: C.bg2, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", bottom: -200, left: -200, width: 700, height: 700, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(0,212,255,0.03) 0%,transparent 65%)", pointerEvents: "none" }} />
-        <div style={{ maxWidth: 680, position: "relative", zIndex: 2 }}>
+        <div style={{ maxWidth: 680, position: "relative", zIndex: 2, textAlign: "center" }}>
           <SectionLabel index="04" text="Kontakt" />
           <h2 style={{ fontFamily: font.sans, fontSize: "clamp(3rem,5.5vw,5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.0, color: C.white, marginBottom: 18 }}>
             Bereit für<br /><span style={{ color: C.cyan }}>neue</span><br />Challenges.
