@@ -446,7 +446,7 @@ function Main() {
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
             {[
-              { label: "✉ Email",     href: "mailto:Darcankursat@gmail.com",          primary: true,  hcolor: C.cyan    },
+              { label: "✉ Email",     href: "mailto:Darcankursat@gmail.com",          primary: false,  hcolor: C.cyan    },
               { label: "in LinkedIn", href: "https://linkedin.com/in/kursat-darcan",  primary: false, hcolor: "#7ec8e3" },
               { label: "⌥ GitHub",    href: "https://github.com/DKursat",             primary: false, hcolor: C.grey2   },
             ].map(btn => (
