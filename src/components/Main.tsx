@@ -1,1639 +1,490 @@
-import {Button, Card, CardContent, Typography, Container, Box, Chip, Stack, Fade, Zoom, useMediaQuery, useTheme, } from "@mui/material";
-import Timeline from "@mui/lab/Timeline";
-import TimelineItem from "@mui/lab/TimelineItem";
-import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import TimelineConnector from "@mui/lab/TimelineConnector";
-import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineDot from "@mui/lab/TimelineDot";
-import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import {Email, LinkedIn, GitHub, ArrowForward, Code, School, WorkOutline,} from "@mui/icons-material";
+import { useEffect, useRef } from "react";
 
-function Main() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+const C = {
+  bg:    "#000000",
+  bg2:   "#080808",
+  bg3:   "#0f0f0f",
+  cyan:  "#00d4ff",
+  cglow: "rgba(0,212,255,0.12)",
+  cbord: "rgba(0,212,255,0.22)",
+  white: "#f2f2f2",
+  grey:  "#666666",
+  grey2: "#aaaaaa",
+} as const;
+
+const font = {
+  sans: "'Space Grotesk', sans-serif",
+  mono: "'Fira Code', monospace",
+} as const;
+
+const skills = [
+  { label: "Oracle APEX / PL/SQL", advanced: true  },
+  { label: "HTML / CSS",           advanced: false },
+  { label: "Java",                 advanced: false },
+  { label: "JavaScript",           advanced: false },
+  { label: "GitHub",               advanced: false },
+];
+
+const stats = [
+  { label: "Abschluss",  value: "B.Sc.",  accent: "2,5",          bar: 75  },
+  { label: "Erfahrung",  value: "",       accent: "3 Jahre",       bar: 55  },
+  { label: "Haupttech",  value: "Oracle", accent: "APEX",          bar: 85  },
+  { label: "Status",     value: "",       accent: "Open to Work",  bar: 100 },
+];
+
+const timelineItems = [
+  {
+    date: "06.2013 – 06.2019", side: "right" as const, type: "edu",
+    company: "Anne-Frank-Gesamtschule Rheinkamp",
+    role: "Realschulabschluss", desc: null,
+  },
+  {
+    date: "12.2017", side: "left" as const, type: "job",
+    company: "My Mediamen",
+    role: "Praktikum — Telekommunikation Technik",
+    desc: "Erwerb grundlegender Kenntnisse in der Telekommunikationsbranche und technischen Systemen.",
+  },
+  {
+    date: "08.2019 – 06.2022", side: "right" as const, type: "edu",
+    company: "Berufskolleg für Technik Moers",
+    role: "Fachabitur + Informationstechnischer Assistent",
+    desc: "Berufsabschluss nach Landesrecht NRW",
+  },
+  {
+    date: "06.2021 – 09.2021", side: "left" as const, type: "job",
+    company: "Erste Praxiserfahrungen",
+    role: "Praktika & Projekterfahrung",
+    desc: "Curv UG – Entwicklung mit Vue.js Framework\nEuroweb – Webentwicklung mit HTML & CSS",
+  },
+  {
+    date: "06.2022 – 05.2025", side: "right" as const, type: "job",
+    company: "Deutsche Post AG",
+    role: "Aushilfe / Lagerhilfe",
+    desc: "Nebentätigkeit während des Studiums",
+  },
+  {
+    date: "09.2022 – 09.2025", side: "left" as const, type: "main",
+    company: "FHDW Mettmann & Hyand Solutions GmbH",
+    role: "Dualer Student (Bachelor) + Junior Berater",
+    desc: "Wirtschaftsinformatik Software Engineering — Note 2,5\nOracle APEX-Entwicklung · PL/SQL & Datenmodellierung · Konzeption von Webanwendungen",
+  },
+  {
+    date: "09.2025 – Heute", side: "right" as const, type: "current",
+    company: "Taxifahrer (Minijob)",
+    role: "Übergangsphase", desc: null,
+  },
+];
+
+const projects = [
+  {
+    title: "Time2Meet",
+    category: "Full-Stack Development & Projektmanagement",
+    desc: "Gruppenplanungssystem für gemeinsame Aktivitäten. Entwickelt im Rahmen der Module Software Testing & DevOps sowie Software Engineering Projects.",
+    tech: ["Next.js", "TypeScript", "Cypress"],
+    github: "https://github.com/KDDevLab",
+    gradient: "linear-gradient(135deg,#00080f,#001a26)",
+  },
+  {
+    title: "Algorithmischer Handel",
+    category: "Data Analysis & ML-Modellierung",
+    desc: "Machine-Learning-Projekt zur Prognose von Aktienkursen mittels technischer Indikatoren und Rohdaten. Entwickelt für Data Analysis and Machine Learning.",
+    tech: ["Python", "Machine Learning", "Jupyter"],
+    github: "https://github.com/KDDevLab",
+    gradient: "linear-gradient(135deg,#060010,#0f0020)",
+  },
+];
+
+function useScrollReveal(delay = 0) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.opacity = "0";
+    el.style.transform = "translateY(20px)";
+    el.style.transition = `opacity 0.45s ${delay}s ease, transform 0.45s ${delay}s ease`;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = "1";
+          el.style.transform = "translateY(0)";
+        }
+      },
+      { threshold: 0.12 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [delay]);
+  return ref;
+}
+
+function SectionLabel({ index, text }: { index: string; text: string }) {
+  return (
+    <div style={{
+      fontFamily: font.mono, fontSize: "0.62rem", color: C.cyan,
+      letterSpacing: "0.2em", textTransform: "uppercase" as const,
+      marginBottom: 12, display: "flex", alignItems: "center", gap: 10,
+    }}>
+      {index} — {text}
+      <span style={{ width: 44, height: 1, background: C.cyan, display: "inline-block" }} />
+    </div>
+  );
+}
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      fontFamily: font.sans, fontSize: "clamp(2.6rem,4vw,4rem)",
+      fontWeight: 700, letterSpacing: "-0.035em", color: C.white,
+      marginBottom: 64, lineHeight: 1,
+    }}>
+      {children}
+    </div>
+  );
+}
+
+function TimelineCard({
+  item, index,
+}: {
+  item: typeof timelineItems[0];
+  index: number;
+}) {
+  const ref = useScrollReveal(index * 0.08);
+  const isLeft    = item.side === "left";
+  const isEdu     = item.type === "edu";
+  const isMain    = item.type === "main";
+  const isCurrent = item.type === "current";
+
+  const accentColor = isCurrent ? "#ff6b6b" : isEdu ? "#a78bfa" : C.cyan;
+
+  const card = (
+    <div
+      style={{
+        background: C.bg3,
+        border: "1px solid rgba(255,255,255,0.05)",
+        borderRadius: 3,
+        padding: "16px 20px",
+        textAlign: isLeft ? "right" : "left",
+        transition: "border-color 0.2s, box-shadow 0.2s",
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(0,212,255,0.22)";
+        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 4px 20px rgba(0,212,255,0.06)";
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.05)";
+        (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
+      }}
+    >
+      <div style={{ fontFamily: font.sans, fontSize: "0.92rem", fontWeight: 600, color: C.white, marginBottom: 3 }}>
+        {item.company}
+      </div>
+      <div style={{ fontFamily: font.mono, fontSize: "0.62rem", color: accentColor, letterSpacing: "0.05em", marginBottom: 6 }}>
+        {item.role}
+      </div>
+      {item.desc && (
+        <div style={{ fontFamily: font.sans, fontSize: "0.7rem", color: C.grey, lineHeight: 1.8 }}>
+          {item.desc.split("\n").map((line, i) => <div key={i}>{line}</div>)}
+        </div>
+      )}
+    </div>
+  );
+
+  const mid = (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 16 }}>
+      <div style={{
+        width: isMain ? 16 : 12, height: isMain ? 16 : 12, borderRadius: "50%",
+        border: `2px solid ${accentColor}`,
+        background: isMain ? C.cyan : C.bg2,
+        boxShadow: `0 0 12px ${accentColor}55`,
+        flexShrink: 0,
+      }} />
+      <div style={{
+        fontFamily: font.mono, fontSize: "0.56rem", color: accentColor,
+        letterSpacing: "0.05em", marginTop: 7, whiteSpace: "nowrap" as const,
+        textAlign: "center" as const,
+      }}>
+        {item.date}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="w-full">
-      {/* Hero Section - Komplett neu */}
+    <div ref={ref} style={{ display: "grid", gridTemplateColumns: "1fr 48px 1fr", gap: "0 16px", marginBottom: 48, alignItems: "start" }}>
+      {isLeft ? <>{card}{mid}<div /></> : <><div />{mid}{card}</>}
+    </div>
+  );
+}
+
+function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+  const ref = useScrollReveal(index * 0.12);
+  return (
+    <div
+      ref={ref}
+      style={{
+        background: C.bg3, border: "1px solid rgba(255,255,255,0.05)",
+        borderRadius: 3, overflow: "hidden",
+        transition: "border-color 0.25s, box-shadow 0.25s, transform 0.25s",
+      }}
+      onMouseEnter={e => {
+        const el = e.currentTarget as HTMLDivElement;
+        el.style.borderColor = C.cbord;
+        el.style.boxShadow = "0 8px 32px rgba(0,212,255,0.07)";
+        el.style.transform = "translateY(-4px)";
+      }}
+      onMouseLeave={e => {
+        const el = e.currentTarget as HTMLDivElement;
+        el.style.borderColor = "rgba(255,255,255,0.05)";
+        el.style.boxShadow = "none";
+        el.style.transform = "translateY(0)";
+      }}
+    >
+      <div style={{ height: 140, background: project.gradient, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(0,212,255,0.025) 18px,rgba(0,212,255,0.025) 19px)" }} />
+        <span style={{ fontFamily: font.mono, fontSize: "1.8rem", color: C.cyan, opacity: 0.2 }}>&lt;/&gt;</span>
+        <div style={{ position: "absolute", top: 10, right: 10, fontFamily: font.mono, fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase" as const, padding: "3px 9px", border: `1px solid ${C.cbord}`, borderRadius: 2, color: C.cyan, background: "rgba(0,0,0,0.8)" }}>
+          Hochschulprojekt
+        </div>
+      </div>
+      <div style={{ padding: 20 }}>
+        <div style={{ fontFamily: font.mono, fontSize: "0.58rem", color: C.cyan, letterSpacing: "0.05em", marginBottom: 7 }}>
+          ▶ {project.category}
+        </div>
+        <div style={{ fontFamily: font.sans, fontSize: "1.05rem", fontWeight: 600, color: C.white, marginBottom: 7 }}>
+          {project.title}
+        </div>
+        <div style={{ fontFamily: font.sans, fontSize: "0.72rem", color: C.grey, lineHeight: 1.8, marginBottom: 12 }}>
+          {project.desc}
+        </div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 12 }}>
+          {project.tech.map(t => (
+            <span key={t} style={{ fontFamily: font.mono, fontSize: "0.56rem", padding: "3px 8px", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 2, color: C.grey2, letterSpacing: "0.04em" }}>
+              {t}
+            </span>
+          ))}
+        </div>
+        <a
+          href={project.github} target="_blank" rel="noopener noreferrer"
+          style={{ fontFamily: font.mono, fontSize: "0.62rem", color: C.cyan, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 5, letterSpacing: "0.06em", transition: "gap 0.2s" }}
+          onMouseEnter={e => (e.currentTarget.style.gap = "10px")}
+          onMouseLeave={e => (e.currentTarget.style.gap = "5px")}
+        >
+          Auf GitHub verfügbar →
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function Main() {
+  useEffect(() => {
+    const id = "kd-fonts";
+    if (!document.getElementById(id)) {
+      const link = document.createElement("link");
+      link.id = id; link.rel = "stylesheet";
+      link.href = "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap";
+      document.head.appendChild(link);
+    }
+    const sid = "kd-styles";
+    if (!document.getElementById(sid)) {
+      const style = document.createElement("style");
+      style.id = sid;
+      style.textContent = `
+        @keyframes gridPulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+        @keyframes orbFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-40px);}}
+        @keyframes blink{0%,100%{opacity:1;}50%{opacity:.15;}}
+      `;
+      document.head.appendChild(style);
+    }
+  }, []);
+
+  const scrollTo = (id: string) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+
+  return (
+    <div style={{ background: C.bg, color: C.white, fontFamily: font.sans }}>
+
       <section
         id="about"
-        className="min-h-screen flex items-center justify-center relative overflow-hidden pt-24 md:pt-32 pb-20 px-4"
         style={{
-          background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
+          minHeight: "100vh", padding: "100px 60px 60px",
+          display: "grid", gridTemplateColumns: "55% 45%",
+          alignItems: "center", gap: 48,
+          background: C.bg, position: "relative", overflow: "hidden",
         }}
       >
-        {/* Animated Background */}
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            overflow: 'hidden',
-            zIndex: 0,
-          }}
-        >
-          <Box
-            sx={{
-              position: 'absolute',
-              width: '500px',
-              height: '500px',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(96,165,250,0.15) 0%, transparent 70%)',
-              top: '-10%',
-              right: '-5%',
-              animation: 'float 8s ease-in-out infinite',
-              '@keyframes float': {
-                '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-                '50%': { transform: 'translate(-30px, 30px) scale(1.1)' },
-              },
-            }}
-          />
-          <Box
-            sx={{
-              position: 'absolute',
-              width: '400px',
-              height: '400px',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(167,139,250,0.1) 0%, transparent 70%)',
-              bottom: '10%',
-              left: '5%',
-              animation: 'float 10s ease-in-out infinite reverse',
-            }}
-          />
-        </Box>
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none",
+          backgroundImage: `linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px)`,
+          backgroundSize: "80px 80px", animation: "gridPulse 8s ease-in-out infinite" }} />
+        <div style={{ position: "absolute", top: -100, right: 100, width: 500, height: 500,
+          borderRadius: "50%", background: "radial-gradient(circle,rgba(0,212,255,0.06) 0%,transparent 65%)",
+          pointerEvents: "none", animation: "orbFloat 10s ease-in-out infinite" }} />
 
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
-          <Fade in timeout={1000}>
-            <Box>
-              <Box
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-                  gap: 8,
-                  alignItems: "center",
-                }}
-              >
-                <Box>
-                  <Box sx={{ mb: 2 }}>
-                    <Typography
-                      sx={{
-                        fontSize: { xs: "0.9rem", sm: "1rem" },
-                        fontWeight: 500,
-                        color: "primary.main",
-                        mb: 2,
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      Willkommen in meinem Portfolio
-                    </Typography>
-                  </Box>
-                  <Typography
-                    variant="h1"
-                    sx={{
-                      fontSize: { xs: "3rem", md: "4.5rem", lg: "5rem" },
-                      fontWeight: 700,
-                      color: "white",
-                      mb: 3,
-                      lineHeight: 1.1,
-                      background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                    }}
-                  >
-                    Kürsat Darcan
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontSize: { xs: "1.1rem", sm: "1.3rem", md: "1.6rem" },
-                      fontWeight: 400,
-                      color: "grey.300",
-                      mb: 3,
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    Junior Softwareentwickler | Bachelor of Science
-                    (Wirtschaftsinformatik)
-                  </Typography>
-                  <Box
-                    sx={{
-                      bgcolor: 'rgba(96, 165, 250, 0.05)',
-                      border: '1px solid rgba(96, 165, 250, 0.2)',
-                      borderRadius: 3,
-                      p: 3,
-                      mb: 4,
-                      backdropFilter: 'blur(10px)',
-                    }}
-                  >
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontWeight: 400,
-                        color: "grey.300",
-                        mb: 2,
-                        lineHeight: 1.8,
-                        fontSize: { xs: '0.95rem', md: '1.05rem' },
-                      }}
-                    >
-                      Qualifizierter Absolvent mit abgeschlossenem Bachelorstudium
-                      der Wirtschaftsinformatik mit Schwerpunkt Software
-                      Engineering. Die berufliche Tätigkeit ist gekennzeichnet
-                      durch ausgeprägte Leistungsbereitschaft, hohes
-                      Verantwortungsbewusstsein sowie das Bestreben nach
-                      kontinuierlicher fachlicher Weiterentwicklung.
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontWeight: 400,
-                        color: "grey.300",
-                        lineHeight: 1.8,
-                        fontSize: { xs: '0.95rem', md: '1.05rem' },
-                      }}
-                    >
-                      Im Rahmen des dualen Studiums an der Fachhochschule der
-                      Wirtschaft (FHDW) Mettmann wurden fundierte praktische
-                      Kenntnisse in der professionellen Softwareentwicklung
-                      erworben. Der Zeitraum von 2022 bis 2025 war durch die
-                      Tätigkeit bei der Hyand Solutions GmbH geprägt, mit
-                      Schwerpunkt auf der Entwicklung von Softwarelösungen unter
-                      Verwendung von Oracle APEX, PL/SQL sowie modernen
-                      Webtechnologien.
-                    </Typography>
-                  </Box>
-                  <Stack
-                    direction="row"
-                    spacing={1.5}
-                    sx={{ mb: 4, flexWrap: "wrap", gap: 1.5 }}
-                  >
-                    {[
-                      { label: "Oracle APEX / Oracle DB / PL/SQL", level: "Fortgeschritten", color: "#3b82f6" },
-                      { label: "HTML / CSS", level: "Grundlagen", color: "#10b981" },
-                      { label: "Java", level: "Grundlagen", color: "#f59e0b" },
-                      { label: "JavaScript", level: "Grundlagen", color: "#8b5cf6" },
-                      { label: "GitHub", level: "Grundlagen", color: "#ec4899" },
-                    ].map((skill, index) => (
-                      <Chip
-                        key={index}
-                        label={`${skill.label} - ${skill.level}`}
-                        sx={{
-                          bgcolor: `${skill.color}15`,
-                          color: skill.color,
-                          border: `1.5px solid ${skill.color}50`,
-                          fontWeight: 600,
-                          fontSize: { xs: "0.75rem", sm: "0.85rem" },
-                          py: 2.5,
-                          px: 0.5,
-                          transition: 'all 0.3s ease',
-                          '&:hover': {
-                            bgcolor: `${skill.color}25`,
-                            transform: 'translateY(-3px)',
-                            boxShadow: `0 8px 20px ${skill.color}40`,
-                          },
-                        }}
-                      />
-                    ))}
-                  </Stack>
-                  <Stack
-                    direction={{ xs: "column", sm: "row" }}
-                    spacing={2}
-                    sx={{ flexWrap: "wrap", gap: 2 }}
-                  >
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      onClick={() =>
-                        document
-                          .getElementById("education")
-                          ?.scrollIntoView({ behavior: "smooth" })
-                      }
-                      sx={{
-                        textTransform: "none",
-                        fontWeight: 600,
-                        px: { xs: 4, sm: 5 },
-                        py: 1.8,
-                        borderRadius: 3,
-                        borderWidth: 2,
-                        fontSize: { xs: "0.95rem", sm: "1.05rem" },
-                        width: { xs: "100%", sm: "auto" },
-                        borderColor: '#60a5fa',
-                        color: '#60a5fa',
-                        transition: 'all 0.3s ease',
-                        "&:hover": {
-                          borderWidth: 2,
-                          transform: 'translateY(-3px)',
-                          bgcolor: 'rgba(96, 165, 250, 0.1)',
-                          boxShadow: '0 8px 24px rgba(96, 165, 250, 0.4)',
-                        },
-                      }}
-                    >
-                      Werdegang
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      onClick={() =>
-                        document
-                          .getElementById("projects")
-                          ?.scrollIntoView({ behavior: "smooth" })
-                      }
-                      sx={{
-                        textTransform: "none",
-                        fontWeight: 600,
-                        px: { xs: 4, sm: 5 },
-                        py: 1.8,
-                        borderRadius: 3,
-                        borderWidth: 2,
-                        fontSize: { xs: "0.95rem", sm: "1.05rem" },
-                        width: { xs: "100%", sm: "auto" },
-                        borderColor: '#10b981',
-                        color: '#10b981',
-                        transition: 'all 0.3s ease',
-                        "&:hover": {
-                          borderWidth: 2,
-                          transform: 'translateY(-3px)',
-                          bgcolor: 'rgba(16, 185, 129, 0.1)',
-                          boxShadow: '0 8px 24px rgba(16, 185, 129, 0.4)',
-                        },
-                      }}
-                    >
-                      Projektübersicht
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      onClick={() =>
-                        document
-                          .getElementById("contact")
-                          ?.scrollIntoView({ behavior: "smooth" })
-                      }
-                      sx={{
-                        textTransform: "none",
-                        fontWeight: 600,
-                        px: { xs: 4, sm: 5 },
-                        py: 1.8,
-                        borderRadius: 3,
-                        borderWidth: 2,
-                        fontSize: { xs: "0.95rem", sm: "1.05rem" },
-                        width: { xs: "100%", sm: "auto" },
-                        borderColor: '#a78bfa',
-                        color: '#a78bfa',
-                        transition: 'all 0.3s ease',
-                        "&:hover": {
-                          borderWidth: 2,
-                          transform: 'translateY(-3px)',
-                          bgcolor: 'rgba(167, 139, 250, 0.1)',
-                          boxShadow: '0 8px 24px rgba(167, 139, 250, 0.4)',
-                        },
-                      }}
-                    >
-                      Kontaktaufnahme
-                    </Button>
-                  </Stack>
-                </Box>
-                <Box sx={{ display: { xs: "none", md: "flex" }, justifyContent: "center", position: 'relative' }}>
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      width: 400,
-                      height: 400,
-                    }}
-                  >
-                    {/* Outer rotating ring */}
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: '50%',
-                        border: '2px solid',
-                        borderColor: 'primary.main',
-                        opacity: 0.3,
-                        animation: 'rotate 20s linear infinite',
-                        '@keyframes rotate': {
-                          '0%': { transform: 'rotate(0deg)' },
-                          '100%': { transform: 'rotate(360deg)' },
-                        },
-                      }}
-                    />
-                    {/* Middle ring */}
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: '10%',
-                        left: '10%',
-                        width: '80%',
-                        height: '80%',
-                        borderRadius: '50%',
-                        border: '2px dashed',
-                        borderColor: 'secondary.main',
-                        opacity: 0.3,
-                        animation: 'rotate 15s linear infinite reverse',
-                      }}
-                    />
-                    {/* Center gradient circle */}
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: '20%',
-                        left: '20%',
-                        width: '60%',
-                        height: '60%',
-                        background:
-                          "linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)",
-                        borderRadius: "50%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        boxShadow: "0 20px 60px rgba(96, 165, 250, 0.5)",
-                        animation: "float 6s ease-in-out infinite",
-                        "@keyframes float": {
-                          "0%, 100%": { transform: "translateY(0px) scale(1)" },
-                          "50%": { transform: "translateY(-20px) scale(1.05)" },
-                        },
-                      }}
-                    >
-                      <Code sx={{ fontSize: 100, color: "white", filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))' }} />
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
-          </Fade>
-        </Container>
-      </section>
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            fontFamily: font.mono, fontSize: "0.62rem", color: C.cyan,
+            letterSpacing: "0.16em", textTransform: "uppercase" as const,
+            padding: "6px 14px", border: `1px solid ${C.cbord}`,
+            borderRadius: 2, background: C.cglow, marginBottom: 24,
+          }}>
+            <span style={{ width: 8, height: 8, borderRadius: "50%", background: C.cyan, display: "inline-block", animation: "blink 1.5s infinite" }} />
+            Open to Work
+          </div>
 
-      {/* Education & Career Section - Timeline */}
-      <section
-        id="education"
-        className="min-h-screen flex items-center justify-center py-20 px-4"
-        style={{
-          background: 'linear-gradient(180deg, #1e293b 0%, #0f172a 50%, #1e293b 100%)',
-        }}
-      >
-        <Container maxWidth="lg">
-          <Fade in timeout={1000}>
-            <Box>
-              <Typography
-                variant="h2"
-                sx={{
-                  fontSize: { xs: "2.5rem", md: "4rem" },
-                  fontWeight: 700,
-                  textAlign: "center",
-                  mb: 2,
-                  background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                Mein Werdegang
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: { xs: "1rem", md: "1.2rem" },
-                  fontWeight: 400,
-                  textAlign: "center",
-                  mb: { xs: 6, md: 10 },
-                  color: 'grey.400',
-                }}
-              >
-                Von der Schule bis zur professionellen Softwareentwicklung
-              </Typography>
+          <h1 style={{ fontFamily: font.sans, fontSize: "clamp(4rem,6vw,6rem)", fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.04em", color: C.white, marginBottom: 14 }}>
+            Kürsat<br />
+            <span style={{ color: C.cyan }}>Darcan</span>
+          </h1>
 
-              <Timeline position={isMobile ? "right" : "alternate"}>
-                {/* Item 1 - Anne-Frank-Gesamtschule */}
-                <TimelineItem>
-                  <TimelineOppositeContent
-                    sx={{
-                      m: "auto 0",
-                      color: "primary.light",
-                      fontWeight: 600,
-                      fontSize: "0.875rem",
-                      display: { xs: "none", md: "block" },
-                    }}
-                  >
-                    06.2013 - 06.2019
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineConnector
-                      sx={{ bgcolor: "primary.main", height: 40 }}
-                    />
-                    <TimelineDot
-                      sx={{
-                        bgcolor: "primary.main",
-                        boxShadow: "0 0 20px rgba(96, 165, 250, 0.8)",
-                        width: 20,
-                        height: 20,
-                      }}
-                    />
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #60a5fa, #10b981)",
-                        height: 80,
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
-                    <Zoom in timeout={800}>
-                      <Card
-                        sx={{
-                          bgcolor: "rgba(30, 41, 59, 0.6)",
-                          backdropFilter: "blur(20px)",
-                          border: "2px solid rgba(96, 165, 250, 0.3)",
-                          borderRadius: 4,
-                          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                          "&:hover": {
-                            transform: "translateY(-8px) scale(1.02)",
-                            boxShadow: "0 16px 48px rgba(96, 165, 250, 0.5)",
-                            borderColor: "rgba(96, 165, 250, 0.6)",
-                            bgcolor: "rgba(30, 41, 59, 0.8)",
-                          },
-                        }}
-                      >
-                        <CardContent sx={{ p: 3 }}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "flex-start",
-                              gap: 2,
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                width: 56,
-                                height: 56,
-                                borderRadius: 3,
-                                background:
-                                  "linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                                boxShadow: "0 8px 24px rgba(96, 165, 250, 0.4)",
-                                transition: "transform 0.3s ease",
-                                "&:hover": {
-                                  transform: "rotate(10deg) scale(1.1)",
-                                },
-                              }}
-                            >
-                              <School sx={{ color: "white", fontSize: 32 }} />
-                            </Box>
-                            <Box sx={{ flex: 1 }}>
-                              <Typography
-                                variant="h6"
-                                sx={{ fontWeight: 700, color: "white", mb: 1, fontSize: '1.2rem' }}
-                              >
-                                Anne-Frank-Gesamtschule Rheinkamp
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: "grey.300",
-                                  fontWeight: 400,
-                                  lineHeight: 1.7,
-                                }}
-                              >
-                                Realschulabschluss
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </Zoom>
-                  </TimelineContent>
-                </TimelineItem>
+          <div style={{ fontFamily: font.mono, fontSize: "0.8rem", color: C.grey2, marginBottom: 28, letterSpacing: "0.03em" }}>
+            Junior Softwareentwickler
+            <span style={{ color: C.cyan, margin: "0 8px" }}>/</span>
+            B.Sc. Wirtschaftsinformatik
+          </div>
 
-                {/* Item 2 - My Mediamen Praktikum */}
-                <TimelineItem>
-                  <TimelineOppositeContent
-                    sx={{
-                      m: "auto 0",
-                      color: "#10b981",
-                      fontWeight: 600,
-                      fontSize: "0.875rem",
-                      display: { xs: "none", md: "block" },
-                    }}
-                  >
-                    12.2017
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #60a5fa, #10b981)",
-                        height: 80,
-                      }}
-                    />
-                    <TimelineDot
-                      sx={{
-                        bgcolor: "#10b981",
-                        boxShadow: "0 0 20px rgba(16, 185, 129, 0.8)",
-                        width: 20,
-                        height: 20,
-                      }}
-                    />
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #10b981, #a78bfa)",
-                        height: 80,
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
-                    <Zoom in timeout={1000}>
-                      <Card
-                        sx={{
-                          bgcolor: "rgba(30, 41, 59, 0.6)",
-                          backdropFilter: "blur(20px)",
-                          border: "2px solid rgba(16, 185, 129, 0.3)",
-                          borderRadius: 4,
-                          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                          "&:hover": {
-                            transform: "translateY(-8px) scale(1.02)",
-                            boxShadow: "0 16px 48px rgba(16, 185, 129, 0.5)",
-                            borderColor: "rgba(16, 185, 129, 0.6)",
-                            bgcolor: "rgba(30, 41, 59, 0.8)",
-                          },
-                        }}
-                      >
-                        <CardContent sx={{ p: 3 }}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "flex-start",
-                              gap: 2,
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                width: 56,
-                                height: 56,
-                                borderRadius: 3,
-                                background:
-                                  "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                                boxShadow: "0 8px 24px rgba(16, 185, 129, 0.4)",
-                                transition: "transform 0.3s ease",
-                                "&:hover": {
-                                  transform: "rotate(10deg) scale(1.1)",
-                                },
-                              }}
-                            >
-                              <Code sx={{ color: "white", fontSize: 32 }} />
-                            </Box>
-                            <Box sx={{ flex: 1 }}>
-                              <Typography
-                                variant="h6"
-                                sx={{ fontWeight: 700, color: "white", mb: 1, fontSize: '1.2rem' }}
-                              >
-                                My Mediamen
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: "grey.300",
-                                  fontWeight: 400,
-                                  lineHeight: 1.7,
-                                }}
-                              >
-                                <strong style={{ color: "#10b981" }}>
-                                  Praktikum
-                                </strong>{" "}
-                                - Telekommunikation Technik
-                                <br />
-                                Erwerb grundlegender Kenntnisse in der
-                                Telekommunikationsbranche und technischen
-                                Systemen.
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </Zoom>
-                  </TimelineContent>
-                </TimelineItem>
+          <div style={{ fontFamily: font.sans, fontSize: "0.86rem", lineHeight: 1.9, color: C.grey2, maxWidth: 520, marginBottom: 32, padding: "16px 20px", background: "rgba(0,212,255,0.03)", border: "1px solid rgba(0,212,255,0.08)", borderRadius: 3 }}>
+            Qualifizierter Absolvent mit abgeschlossenem Bachelorstudium der
+            Wirtschaftsinformatik, Schwerpunkt Software Engineering. 3 Jahre
+            Berufserfahrung bei Hyand Solutions GmbH — Oracle APEX, PL/SQL
+            sowie moderne Webtechnologien.
+          </div>
 
-                {/* Item 3 - Berufskolleg */}
-                <TimelineItem>
-                  <TimelineOppositeContent
-                    sx={{
-                      m: "auto 0",
-                      color: "secondary.light",
-                      fontWeight: 600,
-                      fontSize: "0.875rem",
-                      display: { xs: "none", md: "block" },
-                    }}
-                  >
-                    08.2019 - 06.2022
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #10b981, #a78bfa)",
-                        height: 80,
-                      }}
-                    />
-                    <TimelineDot
-                      sx={{
-                        bgcolor: "secondary.main",
-                        boxShadow: "0 0 20px rgba(167, 139, 250, 0.8)",
-                        width: 20,
-                        height: 20,
-                      }}
-                    />
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #a78bfa, #fbbf24)",
-                        height: 80,
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
-                    <Zoom in timeout={1200}>
-                      <Card
-                        sx={{
-                          bgcolor: "rgba(30, 41, 59, 0.6)",
-                          backdropFilter: "blur(20px)",
-                          border: "2px solid rgba(167, 139, 250, 0.3)",
-                          borderRadius: 4,
-                          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                          "&:hover": {
-                            transform: "translateY(-8px) scale(1.02)",
-                            boxShadow: "0 16px 48px rgba(167, 139, 250, 0.5)",
-                            borderColor: "rgba(167, 139, 250, 0.6)",
-                            bgcolor: "rgba(30, 41, 59, 0.8)",
-                          },
-                        }}
-                      >
-                        <CardContent sx={{ p: 3 }}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "flex-start",
-                              gap: 2,
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                width: 56,
-                                height: 56,
-                                borderRadius: 3,
-                                background:
-                                  "linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                                boxShadow: "0 8px 24px rgba(167, 139, 250, 0.4)",
-                                transition: "transform 0.3s ease",
-                                "&:hover": {
-                                  transform: "rotate(10deg) scale(1.1)",
-                                },
-                              }}
-                            >
-                              <School sx={{ color: "white", fontSize: 32 }} />
-                            </Box>
-                            <Box sx={{ flex: 1 }}>
-                              <Typography
-                                variant="h6"
-                                sx={{ fontWeight: 700, color: "white", mb: 1, fontSize: '1.2rem' }}
-                              >
-                                Berufskolleg für Technik Moers
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: "grey.300",
-                                  fontWeight: 400,
-                                  lineHeight: 1.7,
-                                }}
-                              >
-                                Fachabitur + Berufsabschluss nach Landesrecht
-                                NRW als Informationstechnischer Assistent
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </Zoom>
-                  </TimelineContent>
-                </TimelineItem>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: 32 }}>
+            {skills.map(s => (
+              <span key={s.label} style={{
+                fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.07em",
+                padding: "5px 12px", borderRadius: 2, textTransform: "uppercase" as const,
+                border: s.advanced ? `1px solid ${C.cyan}` : "1px solid rgba(255,255,255,0.1)",
+                color: s.advanced ? C.cyan : C.grey,
+                background: s.advanced ? "rgba(0,212,255,0.05)" : "transparent",
+              }}>{s.label}</span>
+            ))}
+          </div>
 
-                {/* Item 4 - Praktika & Erste Berufserfahrung */}
-                <TimelineItem>
-                  <TimelineOppositeContent
-                    sx={{
-                      m: "auto 0",
-                      color: "#fbbf24",
-                      fontWeight: 600,
-                      fontSize: "0.875rem",
-                      display: { xs: "none", md: "block" },
-                    }}
-                  >
-                    06.2021 - 09.2021
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #10b981, #fbbf24)",
-                        height: 80,
-                      }}
-                    />
-                    <TimelineDot
-                      sx={{
-                        bgcolor: "#fbbf24",
-                        boxShadow: "0 0 20px rgba(251, 191, 36, 0.8)",
-                        width: 20,
-                        height: 20,
-                      }}
-                    />
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #fbbf24, #06b6d4)",
-                        height: 80,
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
-                    <Zoom in timeout={1400}>
-                      <Card
-                        sx={{
-                          bgcolor: "rgba(30, 41, 59, 0.6)",
-                          backdropFilter: "blur(20px)",
-                          border: "2px solid rgba(251, 191, 36, 0.3)",
-                          borderRadius: 4,
-                          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                          "&:hover": {
-                            transform: "translateY(-8px) scale(1.02)",
-                            boxShadow: "0 16px 48px rgba(251, 191, 36, 0.5)",
-                            borderColor: "rgba(251, 191, 36, 0.6)",
-                            bgcolor: "rgba(30, 41, 59, 0.8)",
-                          },
-                        }}
-                      >
-                        <CardContent sx={{ p: 3 }}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "flex-start",
-                              gap: 2,
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                width: 56,
-                                height: 56,
-                                borderRadius: 3,
-                                background:
-                                  "linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                                boxShadow: "0 8px 24px rgba(251, 191, 36, 0.4)",
-                                transition: "transform 0.3s ease",
-                                "&:hover": {
-                                  transform: "rotate(10deg) scale(1.1)",
-                                },
-                              }}
-                            >
-                              <Code sx={{ color: "white", fontSize: 32 }} />
-                            </Box>
-                            <Box sx={{ flex: 1 }}>
-                              <Typography
-                                variant="h6"
-                                sx={{ fontWeight: 700, color: "white", mb: 1, fontSize: '1.2rem' }}
-                              >
-                                Erste Praxiserfahrungen
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: "grey.300",
-                                  fontWeight: 400,
-                                  lineHeight: 1.7,
-                                  mb: 1,
-                                }}
-                              >
-                                <strong style={{ color: "#fbbf24" }}>
-                                  Curv UG
-                                </strong>{" "}
-                                - Praktikum als Anwendungsentwickler
-                                <br />• Entwicklung mit Vue.js Framework
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: "grey.300",
-                                  fontWeight: 400,
-                                  lineHeight: 1.7,
-                                  mb: 1,
-                                }}
-                              >
-                                <strong style={{ color: "#fbbf24" }}>
-                                  Euroweb
-                                </strong>{" "}
-                                - Projektwoche durch BKTM, Web-Design Entwickler
-                                <br />• Webentwicklung mit HTML & CSS
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: "grey.300",
-                                  fontWeight: 400,
-                                  lineHeight: 1.7,
-                                }}
-                              >
-                                Erwerb praktischer Erfahrungen in der
-                                Webentwicklung und modernen
-                                JavaScript-Frameworks.
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </Zoom>
-                  </TimelineContent>
-                </TimelineItem>
-
-                {/* Item 5 - Deutsche Post AG Minijob */}
-                <TimelineItem>
-                  <TimelineOppositeContent
-                    sx={{
-                      m: "auto 0",
-                      color: "#06b6d4",
-                      fontWeight: 600,
-                      fontSize: "0.875rem",
-                      display: { xs: "none", md: "block" },
-                    }}
-                  >
-                    06.2022 - 05.2025
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #fbbf24, #06b6d4)",
-                        height: 80,
-                      }}
-                    />
-                    <TimelineDot
-                      sx={{
-                        bgcolor: "#06b6d4",
-                        boxShadow: "0 0 20px rgba(6, 182, 212, 0.8)",
-                        width: 20,
-                        height: 20,
-                      }}
-                    />
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #06b6d4, #ec4899)",
-                        height: 80,
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
-                    <Zoom in timeout={1600}>
-                      <Card
-                        sx={{
-                          bgcolor: "rgba(30, 41, 59, 0.6)",
-                          backdropFilter: "blur(20px)",
-                          border: "2px solid rgba(6, 182, 212, 0.3)",
-                          borderRadius: 4,
-                          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                          "&:hover": {
-                            transform: "translateY(-8px) scale(1.02)",
-                            boxShadow: "0 16px 48px rgba(6, 182, 212, 0.5)",
-                            borderColor: "rgba(6, 182, 212, 0.6)",
-                            bgcolor: "rgba(30, 41, 59, 0.8)",
-                          },
-                        }}
-                      >
-                        <CardContent sx={{ p: 3 }}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "flex-start",
-                              gap: 2,
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                width: 56,
-                                height: 56,
-                                borderRadius: 3,
-                                background:
-                                  "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                                boxShadow: "0 8px 24px rgba(6, 182, 212, 0.4)",
-                                transition: "transform 0.3s ease",
-                                "&:hover": {
-                                  transform: "rotate(10deg) scale(1.1)",
-                                },
-                              }}
-                            >
-                              <WorkOutline
-                                sx={{ color: "white", fontSize: 32 }}
-                              />
-                            </Box>
-                            <Box sx={{ flex: 1 }}>
-                              <Typography
-                                variant="h6"
-                                sx={{ fontWeight: 700, color: "white", mb: 1, fontSize: '1.2rem' }}
-                              >
-                                Deutsche Post AG
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: "grey.300",
-                                  fontWeight: 400,
-                                  lineHeight: 1.7,
-                                }}
-                              >
-                                <strong style={{ color: "#06b6d4" }}>
-                                  Aushilfe / Lagerhilfe
-                                </strong>
-                                <br />
-                                Nebentätigkeit während des Studiums im Bereich
-                                Lagerlogistik.
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </Zoom>
-                  </TimelineContent>
-                </TimelineItem>
-
-                {/* Item 6 - Duales Studium & Berufseinstieg */}
-                <TimelineItem>
-                  <TimelineOppositeContent
-                    sx={{
-                      m: "auto 0",
-                      color: "#ec4899",
-                      fontWeight: 600,
-                      fontSize: "0.875rem",
-                      display: { xs: "none", md: "block" },
-                    }}
-                  >
-                    09.2022 - 09.2025
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #06b6d4, #ec4899)",
-                        height: 80,
-                      }}
-                    />
-                    <TimelineDot
-                      sx={{
-                        bgcolor: "#ec4899",
-                        boxShadow: "0 0 20px rgba(236, 72, 153, 0.8)",
-                        width: 20,
-                        height: 20,
-                      }}
-                    />
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #ec4899, #f97316)",
-                        height: 80,
-                      }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
-                    <Zoom in timeout={1800}>
-                      <Card
-                        sx={{
-                          bgcolor: "rgba(30, 41, 59, 0.6)",
-                          backdropFilter: "blur(20px)",
-                          border: "2px solid rgba(236, 72, 153, 0.3)",
-                          borderRadius: 4,
-                          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                          "&:hover": {
-                            transform: "translateY(-8px) scale(1.02)",
-                            boxShadow: "0 16px 48px rgba(236, 72, 153, 0.5)",
-                            borderColor: "rgba(236, 72, 153, 0.6)",
-                            bgcolor: "rgba(30, 41, 59, 0.8)",
-                          },
-                        }}
-                      >
-                        <CardContent sx={{ p: 3 }}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "flex-start",
-                              gap: 2,
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                width: 56,
-                                height: 56,
-                                borderRadius: 3,
-                                background:
-                                  "linear-gradient(135deg, #ec4899 0%, #db2777 100%)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                                boxShadow: "0 8px 24px rgba(236, 72, 153, 0.4)",
-                                transition: "transform 0.3s ease",
-                                "&:hover": {
-                                  transform: "rotate(10deg) scale(1.1)",
-                                },
-                              }}
-                            >
-                              <WorkOutline
-                                sx={{ color: "white", fontSize: 32 }}
-                              />
-                            </Box>
-                            <Box sx={{ flex: 1 }}>
-                              <Typography
-                                variant="h6"
-                                sx={{ fontWeight: 700, color: "white", mb: 1, fontSize: '1.2rem' }}
-                              >
-                                FHDW Mettmann & Hyand Solutions GmbH
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: "grey.300",
-                                  fontWeight: 400,
-                                  lineHeight: 1.7,
-                                  mb: 1,
-                                }}
-                              >
-                                <strong style={{ color: "#ec4899" }}>
-                                  Dualer Student (Bachelor)
-                                </strong>{" "}
-                                - Wirtschaftsinformatik Software Engineering |
-                                Abschlussnote: 2,5
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: "grey.300",
-                                  fontWeight: 400,
-                                  lineHeight: 1.7,
-                                  mb: 2,
-                                }}
-                              >
-                                <strong style={{ color: "#ec4899" }}>
-                                  Junior Berater
-                                </strong>{" "}
-                                bei Hyand Solutions GmbH
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: "grey.300",
-                                  fontWeight: 400,
-                                  lineHeight: 1.7,
-                                }}
-                              >
-                                • Entwicklung von Oracle APEX-Anwendungen
-                                <br />
-                                • PL/SQL Entwicklung & Datenmodellierung
-                                <br />
-                                • Konzeption von Webanwendungen
-                                <br />• Praxisorientierte Verbindung von Studium
-                                und professioneller Softwareentwicklung
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </Zoom>
-                  </TimelineContent>
-                </TimelineItem>
-
-                {/* Item 7 - Taxi Minijob (Übergang) */}
-                <TimelineItem>
-                  <TimelineOppositeContent
-                    sx={{
-                      m: "auto 0",
-                      color: "#f97316",
-                      fontWeight: 600,
-                      fontSize: "0.875rem",
-                      display: { xs: "none", md: "block" },
-                    }}
-                  >
-                    09.2025 - Heute
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineConnector
-                      sx={{
-                        background:
-                          "linear-gradient(to bottom, #ec4899, #f97316)",
-                        height: 80,
-                      }}
-                    />
-                    <TimelineDot
-                      sx={{
-                        bgcolor: "#f97316",
-                        boxShadow: "0 0 20px rgba(249, 115, 22, 0.8)",
-                        width: 20,
-                        height: 20,
-                      }}
-                    />
-                    <TimelineConnector
-                      sx={{ bgcolor: "#f97316", height: 40 }}
-                    />
-                  </TimelineSeparator>
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
-                    <Zoom in timeout={2000}>
-                      <Card
-                        sx={{
-                          bgcolor: "rgba(30, 41, 59, 0.6)",
-                          backdropFilter: "blur(20px)",
-                          border: "2px solid rgba(249, 115, 22, 0.3)",
-                          borderRadius: 4,
-                          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                          "&:hover": {
-                            transform: "translateY(-8px) scale(1.02)",
-                            boxShadow: "0 16px 48px rgba(249, 115, 22, 0.5)",
-                            borderColor: "rgba(249, 115, 22, 0.6)",
-                            bgcolor: "rgba(30, 41, 59, 0.8)",
-                          },
-                        }}
-                      >
-                        <CardContent sx={{ p: 3 }}>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "flex-start",
-                              gap: 2,
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                width: 56,
-                                height: 56,
-                                borderRadius: 3,
-                                background:
-                                  "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                                boxShadow: "0 8px 24px rgba(249, 115, 22, 0.4)",
-                                transition: "transform 0.3s ease",
-                                "&:hover": {
-                                  transform: "rotate(10deg) scale(1.1)",
-                                },
-                              }}
-                            >
-                              <WorkOutline
-                                sx={{ color: "white", fontSize: 32 }}
-                              />
-                            </Box>
-                            <Box sx={{ flex: 1 }}>
-                              <Typography
-                                variant="h6"
-                                sx={{ fontWeight: 700, color: "white", mb: 1, fontSize: '1.2rem' }}
-                              >
-                                Taxifahrer (Minijob)
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: "grey.300",
-                                  fontWeight: 400,
-                                  lineHeight: 1.7,
-                                }}
-                              >
-                                Übergangsphase
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </Zoom>
-                  </TimelineContent>
-                </TimelineItem>
-              </Timeline>
-            </Box>
-          </Fade>
-        </Container>
-      </section>
-
-      {/* Projects Section */}
-      <section
-        id="projects"
-        className="min-h-screen flex items-center justify-center py-20 px-4"
-        style={{
-          background: 'linear-gradient(180deg, #1e293b 0%, #0f172a 50%, #1e293b 100%)',
-        }}
-      >
-        <Container maxWidth="xl">
-          <Fade in timeout={1000}>
-            <Box>
-              <Typography
-                variant="h2"
-                sx={{
-                  fontSize: { xs: "2.5rem", md: "4rem" },
-                  fontWeight: 700,
-                  textAlign: "center",
-                  mb: 2,
-                  background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                Meine Projekte
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: { xs: "1rem", md: "1.2rem" },
-                  fontWeight: 400,
-                  textAlign: "center",
-                  mb: { xs: 6, md: 10 },
-                  color: 'grey.400',
-                }}
-              >
-                Innovative Lösungen aus Studium und Praxis
-              </Typography>
-              <Box
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns: {
-                    xs: "1fr",
-                    md: "repeat(2, 1fr)",
-                    lg: "repeat(3, 1fr)",
-                  },
-                  gap: 4,
-                }}
-              >
-                {[
-                  {
-                    title: "Time2Meet",
-                    description:
-                      "Gruppenplanungssystem für gemeinsame Aktivitäten. Entwickelt im Rahmen der Module Software Testing & DevOps sowie Software Engineering Projects.",
-                    tech: ["Next.js", "TypeScript", "Cypress"],
-                    gradient:
-                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                    color: "#667eea",
-                    role: "Full-Stack Development & Projektmanagement",
-                    github: "https://github.com/SEPMFWS422A/time2meet",
-                    isUniversityProject: true,
-                  },
-                  {
-                    title: "Algorithmischer Handel",
-                    description:
-                      "Machine-Learning-Projekt zur Prognose von Aktienkursen mittels technischer Indikatoren und Rohdaten. Entwickelt für das Modul Data Analysis and Machine Learning.",
-                    tech: ["Python", "Machine Learning", "Jupyter"],
-                    gradient:
-                      "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-                    color: "#f093fb",
-                    role: "Data Analysis & ML-Modellierung",
-                    github:
-                      "https://github.com/KD-Studies/Algorithmischer-Handel",
-                    isUniversityProject: true,
-                  },
-                ].map((project, index) => (
-                  <Zoom in timeout={800 + index * 200} key={index}>
-                    <Card
-                      elevation={0}
-                      sx={{
-                        bgcolor: "rgba(30, 41, 59, 0.5)",
-                        backdropFilter: "blur(20px)",
-                        borderRadius: 4,
-                        overflow: "hidden",
-                        transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                        border: "1px solid rgba(96, 165, 250, 0.2)",
-                        position: "relative",
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        "&::before": {
-                          content: '""',
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          height: "5px",
-                          background: project.gradient,
-                          opacity: 1,
-                        },
-                        "&:hover": {
-                          transform: "translateY(-16px) scale(1.02)",
-                          boxShadow: `0 24px 64px ${project.color}50`,
-                          borderColor: `${project.color}80`,
-                          bgcolor: "rgba(30, 41, 59, 0.7)",
-                        },
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          height: 200,
-                          background: project.gradient,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          position: "relative",
-                          overflow: "hidden",
-                          "&::after": {
-                            content: '""',
-                            position: "absolute",
-                            width: "200%",
-                            height: "200%",
-                            background:
-                              "radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)",
-                            top: "-50%",
-                            left: "-50%",
-                            animation: "rotate 20s linear infinite",
-                          },
-                          "@keyframes rotate": {
-                            "0%": { transform: "rotate(0deg)" },
-                            "100%": { transform: "rotate(360deg)" },
-                          },
-                        }}
-                      >
-                        {project.isUniversityProject && (
-                          <Chip
-                            label="Hochschulprojekt"
-                            size="small"
-                            sx={{
-                              position: "absolute",
-                              top: 16,
-                              right: 16,
-                              bgcolor: "rgba(255, 255, 255, 0.95)",
-                              color: "rgba(0, 0, 0, 0.87)",
-                              fontWeight: 700,
-                              fontSize: "0.75rem",
-                              zIndex: 2,
-                              backdropFilter: "blur(10px)",
-                              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
-                            }}
-                          />
-                        )}
-                        <Code
-                          sx={{
-                            fontSize: 90,
-                            color: "white",
-                            opacity: 0.95,
-                            position: "relative",
-                            zIndex: 1,
-                            filter: "drop-shadow(0 8px 16px rgba(0,0,0,0.4))",
-                          }}
-                        />
-                      </Box>
-                      <CardContent sx={{ p: 4, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                        <Typography
-                          variant="h5"
-                          sx={{
-                            fontWeight: 700,
-                            mb: 2.5,
-                            color: "white",
-                            fontSize: { xs: '1.4rem', md: '1.6rem' },
-                          }}
-                        >
-                          {project.title}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            color: "grey.300",
-                            mb: 2.5,
-                            fontWeight: 400,
-                            lineHeight: 1.8,
-                            minHeight: 80,
-                            fontSize: '0.95rem',
-                          }}
-                        >
-                          {project.description}
-                        </Typography>
-                        {project.role && (
-                          <Box
-                            sx={{
-                              bgcolor: `${project.color}15`,
-                              border: `1px solid ${project.color}40`,
-                              borderRadius: 2,
-                              px: 2,
-                              py: 1.5,
-                              mb: 3,
-                            }}
-                          >
-                            <Typography
-                              variant="caption"
-                              sx={{
-                                color: project.color,
-                                fontWeight: 700,
-                                fontSize: '0.85rem',
-                                display: "block",
-                              }}
-                            >
-                              🎯 {project.role}
-                            </Typography>
-                          </Box>
-                        )}
-                        <Stack
-                          direction="row"
-                          spacing={1}
-                          sx={{ mb: 3, flexWrap: "wrap", gap: 1 }}
-                        >
-                          {project.tech.map((tech) => (
-                            <Chip
-                              key={tech}
-                              label={tech}
-                              size="small"
-                              sx={{
-                                bgcolor: `${project.color}20`,
-                                color: project.color,
-                                fontWeight: 700,
-                                border: `1.5px solid ${project.color}50`,
-                                fontSize: "0.8rem",
-                                transition: "all 0.3s ease",
-                                "&:hover": {
-                                  bgcolor: `${project.color}35`,
-                                  transform: "translateY(-3px)",
-                                  boxShadow: `0 6px 16px ${project.color}40`,
-                                },
-                              }}
-                            />
-                          ))}
-                        </Stack>
-                        <Box sx={{ mt: 'auto' }}>
-                          <Button
-                            endIcon={<ArrowForward />}
-                            href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            sx={{
-                              textTransform: "none",
-                              fontWeight: 700,
-                              color: project.color,
-                              fontSize: '0.95rem',
-                              p: 0,
-                              "&:hover": {
-                                bgcolor: "transparent",
-                                transform: "translateX(6px)",
-                              },
-                              transition: "transform 0.3s ease",
-                            }}
-                          >
-                            Auf GitHub verfügbar
-                          </Button>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Zoom>
-                ))}
-              </Box>
-            </Box>
-          </Fade>
-        </Container>
-      </section>
-
-      {/* Contact Section */}
-      <section
-        id="contact"
-        className="min-h-screen flex items-center justify-center py-20 px-4"
-        style={{
-          background: 'linear-gradient(180deg, #1e293b 0%, #0f172a 100%)',
-        }}
-      >
-        <Container maxWidth="md">
-          <Box sx={{ textAlign: "center" }}>
-            <Typography
-              variant="h2"
-              sx={{
-                fontSize: { xs: "2.5rem", md: "4rem" },
-                fontWeight: 700,
-                mb: 2,
-                background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            {[
+              { label: "Werdegang",  id: "education", primary: true  },
+              { label: "Projekte",   id: "projects",  primary: false },
+              { label: "Kontakt",    id: "contact",   primary: false },
+            ].map(btn => (
+              <button key={btn.label} onClick={() => scrollTo(btn.id)} style={{
+                fontFamily: font.mono, fontSize: "0.68rem", letterSpacing: "0.1em",
+                textTransform: "uppercase" as const, padding: "13px 26px", borderRadius: 2,
+                cursor: "pointer", fontWeight: btn.primary ? 600 : 400,
+                background: btn.primary ? C.cyan : "transparent",
+                color: btn.primary ? "#000" : C.white,
+                border: btn.primary ? `1px solid ${C.cyan}` : "1px solid rgba(255,255,255,0.15)",
+                transition: "all 0.22s",
               }}
-            >
-              Lass uns reden
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 400,
-                color: "grey.400",
-                mb: 8,
-                lineHeight: 1.8,
-                fontSize: { xs: '1rem', md: '1.2rem' },
-              }}
-            >
-              Für Anfragen bezüglich beruflicher Zusammenarbeit stehe ich gerne
-              zur Verfügung.
-            </Typography>
+                onMouseEnter={e => {
+                  const el = e.currentTarget;
+                  if (btn.primary) { el.style.background = "transparent"; el.style.color = C.cyan; el.style.boxShadow = "0 8px 28px rgba(0,212,255,0.25)"; }
+                  else { el.style.borderColor = C.cyan; el.style.color = C.cyan; }
+                  el.style.transform = "translateY(-2px)";
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget;
+                  el.style.background = btn.primary ? C.cyan : "transparent";
+                  el.style.color = btn.primary ? "#000" : C.white;
+                  el.style.transform = "translateY(0)";
+                  el.style.boxShadow = "none";
+                  el.style.borderColor = btn.primary ? C.cyan : "rgba(255,255,255,0.15)";
+                }}
+              >
+                {btn.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
-                gap: 3,
-                mb: 6,
-              }}
+        <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", gap: 14 }}>
+          {stats.map((s, i) => (
+            <div key={i}
+              style={{ background: C.bg3, border: "1px solid rgba(0,212,255,0.1)", borderRadius: 4, padding: "16px 20px", transition: "border-color 0.2s, transform 0.2s" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(0,212,255,0.3)"; (e.currentTarget as HTMLDivElement).style.transform = "translateX(6px)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(0,212,255,0.1)"; (e.currentTarget as HTMLDivElement).style.transform = "translateX(0)"; }}
             >
-              <Button
-                variant="outlined"
-                startIcon={<Email />}
-                href="mailto:Darcankursat@gmail.com"
-                sx={{
-                  textTransform: "none",
-                  fontWeight: 600,
-                  px: 4,
-                  py: 2.5,
-                  borderRadius: 3,
-                  borderWidth: 2,
-                  fontSize: '1rem',
-                  borderColor: '#60a5fa',
-                  color: '#60a5fa',
-                  transition: 'all 0.3s ease',
-                  "&:hover": {
-                    borderWidth: 2,
-                    transform: 'translateY(-4px)',
-                    bgcolor: 'rgba(96, 165, 250, 0.1)',
-                    boxShadow: '0 8px 24px rgba(96, 165, 250, 0.4)',
-                  },
-                }}
-              >
-                Email
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<LinkedIn />}
-                href="https://linkedin.com/in/kursat-darcan"
-                target="_blank"
-                sx={{
-                  textTransform: "none",
-                  fontWeight: 600,
-                  px: 4,
-                  py: 2.5,
-                  borderRadius: 3,
-                  borderWidth: 2,
-                  fontSize: '1rem',
-                  borderColor: '#10b981',
-                  color: '#10b981',
-                  transition: 'all 0.3s ease',
-                  "&:hover": {
-                    borderWidth: 2,
-                    transform: 'translateY(-4px)',
-                    bgcolor: 'rgba(16, 185, 129, 0.1)',
-                    boxShadow: '0 8px 24px rgba(16, 185, 129, 0.4)',
-                  },
-                }}
-              >
-                LinkedIn
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<GitHub />}
-                href="https://github.com/DKursat"
-                target="_blank"
-                sx={{
-                  textTransform: "none",
-                  fontWeight: 600,
-                  px: 4,
-                  py: 2.5,
-                  borderRadius: 3,
-                  borderWidth: 2,
-                  fontSize: '1rem',
-                  borderColor: '#a78bfa',
-                  color: '#a78bfa',
-                  transition: 'all 0.3s ease',
-                  "&:hover": {
-                    borderWidth: 2,
-                    transform: 'translateY(-4px)',
-                    bgcolor: 'rgba(167, 139, 250, 0.1)',
-                    boxShadow: '0 8px 24px rgba(167, 139, 250, 0.4)',
-                  },
-                }}
-              >
-                GitHub
-              </Button>
-            </Box>
-          </Box>
-        </Container>
+              <div style={{ fontFamily: font.mono, fontSize: "0.55rem", color: C.grey, letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: 5 }}>{s.label}</div>
+              <div style={{ fontFamily: font.sans, fontSize: "1rem", fontWeight: 600, color: C.white }}>
+                {s.value} <span style={{ color: C.cyan }}>{s.accent}</span>
+              </div>
+              <div style={{ height: 2, background: "rgba(0,212,255,0.1)", borderRadius: 2, marginTop: 8, overflow: "hidden" }}>
+                <div style={{ height: "100%", background: C.cyan, borderRadius: 2, width: `${s.bar}%`, transition: `width 1.5s ${i * 0.2}s ease-out` }} />
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
+
+      <section id="education" style={{ padding: "120px 60px", background: C.bg2 }}>
+        <SectionLabel index="02" text="Werdegang" />
+        <SectionTitle>Mein Weg.</SectionTitle>
+        <div style={{ position: "relative", maxWidth: 880, margin: "0 auto" }}>
+          <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 1, background: `linear-gradient(180deg,transparent,${C.cbord} 8%,${C.cbord} 92%,transparent)`, transform: "translateX(-50%)" }} />
+          {timelineItems.map((item, i) => <TimelineCard key={i} item={item} index={i} />)}
+        </div>
+      </section>
+
+      <section id="projects" style={{ padding: "120px 60px", background: C.bg, position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: -200, right: -200, width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(0,212,255,0.03) 0%,transparent 70%)", pointerEvents: "none" }} />
+        <SectionLabel index="03" text="Projekte" />
+        <SectionTitle>Was ich gebaut habe.</SectionTitle>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22, maxWidth: 960 }}>
+          {projects.map((p, i) => <ProjectCard key={i} project={p} index={i} />)}
+        </div>
+      </section>
+
+      <section id="contact" style={{ minHeight: "100vh", padding: "120px 60px", background: C.bg2, display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", bottom: -200, left: -200, width: 700, height: 700, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(0,212,255,0.03) 0%,transparent 65%)", pointerEvents: "none" }} />
+        <div style={{ maxWidth: 680, position: "relative", zIndex: 2 }}>
+          <SectionLabel index="04" text="Kontakt" />
+          <h2 style={{ fontFamily: font.sans, fontSize: "clamp(3rem,5.5vw,5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.0, color: C.white, marginBottom: 18 }}>
+            Bereit für<br /><span style={{ color: C.cyan }}>neue</span><br />Challenges.
+          </h2>
+          <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: C.grey, lineHeight: 1.85, marginBottom: 48, maxWidth: 460 }}>
+            Für Anfragen bezüglich beruflicher Zusammenarbeit stehe ich gerne zur Verfügung. Ich freue mich auf spannende Projekte und neue Herausforderungen.
+          </p>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            {[
+              { label: "✉ Email",     href: "mailto:Darcankursat@gmail.com",          primary: true,  hcolor: C.cyan    },
+              { label: "in LinkedIn", href: "https://linkedin.com/in/kursat-darcan",  primary: false, hcolor: "#7ec8e3" },
+              { label: "⌥ GitHub",    href: "https://github.com/DKursat",             primary: false, hcolor: C.grey2   },
+            ].map(btn => (
+              <a key={btn.label} href={btn.href}
+                target={btn.primary ? undefined : "_blank"}
+                rel={btn.primary ? undefined : "noopener noreferrer"}
+                style={{
+                  fontFamily: font.mono, fontSize: "0.68rem", letterSpacing: "0.12em",
+                  textTransform: "uppercase" as const, padding: "15px 28px", borderRadius: 2,
+                  textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8,
+                  transition: "all 0.22s", cursor: "pointer",
+                  background: btn.primary ? C.cyan : "transparent",
+                  color: btn.primary ? "#000" : btn.hcolor,
+                  border: btn.primary ? `1px solid ${C.cyan}` : "1px solid rgba(255,255,255,0.12)",
+                  fontWeight: btn.primary ? 600 : 400,
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget;
+                  if (btn.primary) { el.style.background = "transparent"; el.style.color = C.cyan; el.style.boxShadow = "0 0 26px rgba(0,212,255,0.22)"; }
+                  else { el.style.borderColor = btn.hcolor; }
+                  el.style.transform = "translateY(-2px)";
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget;
+                  el.style.background = btn.primary ? C.cyan : "transparent";
+                  el.style.color = btn.primary ? "#000" : btn.hcolor;
+                  el.style.transform = "translateY(0)";
+                  el.style.boxShadow = "none";
+                  el.style.borderColor = btn.primary ? C.cyan : "rgba(255,255,255,0.12)";
+                }}
+              >
+                {btn.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

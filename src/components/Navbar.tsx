@@ -1,268 +1,215 @@
-import React, { useState } from 'react';
-import { 
-  AppBar, 
-  Toolbar, 
-  Button, 
-  Container, 
-  Box, 
-  IconButton, 
-  Drawer, 
-  List, 
-  ListItem, 
-  ListItemButton, 
-  ListItemText,
-  Divider 
-} from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Home, Menu as MenuIcon, Close } from '@mui/icons-material';
+
+const C = {
+  bg:    "rgba(0,0,0,0.88)",
+  cyan:  "#00d4ff",
+  cbord: "rgba(0,212,255,0.22)",
+  white: "#f2f2f2",
+  grey:  "#666",
+} as const;
+
+const font = {
+  sans: "'Space Grotesk', sans-serif",
+  mono: "'Fira Code', monospace",
+} as const;
+
+const menuItems = [
+  { label: 'Profil',     id: 'about'     },
+  { label: 'Werdegang',  id: 'education' },
+  { label: 'Projekte',   id: 'projects'  },
+  { label: 'Kontakt',    id: 'contact'   },
+];
 
 const Navbar: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const isLegalPage = location.pathname === '/impressum' || location.pathname === '/datenschutz';
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const location  = useLocation();
+  const navigate  = useNavigate();
+  const isLegal   = location.pathname === '/impressum' || location.pathname === '/datenschutz';
+  const [open, setOpen]       = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const scrollToSection = (sectionId: string): void => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setMobileOpen(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Lock body scroll when drawer open
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setOpen(false);
   };
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const menuItems = [
-    { label: 'Profil', id: 'about' },
-    { label: 'Werdegang', id: 'education' },
-    { label: 'Projekte', id: 'projects' },
-    { label: 'Kontakt', id: 'contact' }
-  ];
-
-  const drawer = (
-    <Box 
-      sx={{ 
-        width: 300,
-        height: '100%',
-        bgcolor: 'rgba(15, 23, 42, 0.98)',
-        backdropFilter: 'blur(20px)',
-      }}
-    >
-      <Box sx={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'space-between',
-        p: 3,
-        borderBottom: '1px solid rgba(96, 165, 250, 0.2)'
-      }}>
-        <h2 className="text-xl font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Menü</h2>
-        <IconButton 
-          onClick={handleDrawerToggle}
-          sx={{ 
-            color: 'grey.300',
-            '&:hover': {
-              bgcolor: 'rgba(96, 165, 250, 0.1)',
-            }
-          }}
-        >
-          <Close />
-        </IconButton>
-      </Box>
-      <List sx={{ pt: 2, px: 2 }}>
-        {isLegalPage ? (
-          <ListItem disablePadding sx={{ mb: 1 }}>
-            <ListItemButton 
-              onClick={() => {
-                navigate('/');
-                setMobileOpen(false);
-              }}
-              sx={{
-                py: 2,
-                px: 3,
-                borderRadius: 2,
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  bgcolor: 'rgba(96, 165, 250, 0.15)',
-                  transform: 'translateX(8px)',
-                }
-              }}
-            >
-              <Home sx={{ mr: 2, color: 'primary.main', fontSize: 28 }} />
-              <ListItemText 
-                primary="Startseite" 
-                primaryTypographyProps={{
-                  fontWeight: 600,
-                  color: 'grey.200',
-                  fontSize: '1.05rem'
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-        ) : (
-          menuItems.map((item) => (
-            <ListItem key={item.id} disablePadding sx={{ mb: 1 }}>
-              <ListItemButton 
-                onClick={() => scrollToSection(item.id)}
-                sx={{
-                  py: 2,
-                  px: 3,
-                  borderRadius: 2,
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    bgcolor: 'rgba(96, 165, 250, 0.15)',
-                    transform: 'translateX(8px)',
-                  }
-                }}
-              >
-                <ListItemText 
-                  primary={item.label} 
-                  primaryTypographyProps={{
-                    fontWeight: 600,
-                    color: 'grey.200',
-                    fontSize: '1.05rem'
-                  }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))
-        )}
-      </List>
-      <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.1)', my: 2 }} />
-      <Box sx={{ px: 3, py: 2 }}>
-        <p className="text-xs text-gray-500 font-light">
-          Kürsat Darcan, B.Sc.
-          <br />
-          Junior Softwareentwickler
-        </p>
-      </Box>
-    </Box>
-  );
 
   return (
     <>
-      <AppBar 
-        position="fixed" 
-        elevation={0}
-        sx={{ 
-          bgcolor: 'rgba(15, 23, 42, 0.85)',
-          backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(96, 165, 250, 0.2)',
-          boxShadow: '0 4px 24px rgba(0, 0, 0, 0.2)'
-        }}
-      >
-        <Container maxWidth="xl">
-          <Toolbar sx={{ justifyContent: 'space-between', minHeight: { xs: '64px', md: '80px' } }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <h1 style={{ 
-                fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
-                fontWeight: 700,
-                background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                letterSpacing: '-0.5px'
-              }}>
-                Kürsat Darcan, B.Sc.
-              </h1>
-            </Box>
+      {/* ── NAV ── */}
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 500,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 48px', height: 64,
+        background: C.bg,
+        backdropFilter: 'blur(20px)',
+        borderBottom: scrolled
+          ? `1px solid ${C.cbord}`
+          : '1px solid rgba(255,255,255,0.04)',
+        transition: 'border-color 0.3s',
+      }}>
+        {/* Logo */}
+        <button
+          onClick={() => isLegal ? navigate('/') : scrollTo('about')}
+          style={{
+            fontFamily: font.sans, fontWeight: 700, fontSize: '1rem',
+            color: C.white, background: 'none', border: 'none',
+            cursor: 'pointer', letterSpacing: '-0.02em', padding: 0,
+          }}
+        >
+          Kürsat Darcan<span style={{ color: C.cyan }}>.</span>
+        </button>
 
-            {/* Desktop Navigation */}
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
-              {isLegalPage ? (
-                <Button
-                  startIcon={<Home />}
-                  onClick={() => navigate('/')}
-                  sx={{
-                    color: 'grey.300',
-                    fontWeight: 600,
-                    fontSize: '1rem',
-                    textTransform: 'none',
-                    px: 3,
-                    py: 1.2,
-                    borderRadius: 2,
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      color: 'primary.main',
-                      bgcolor: 'rgba(96, 165, 250, 0.15)',
-                      transform: 'translateY(-2px)'
-                    }
-                  }}
-                >
-                  Startseite
-                </Button>
-              ) : (
-                menuItems.map((item) => (
-                  <Button
-                    key={item.id}
-                    onClick={() => scrollToSection(item.id)}
-                    sx={{
-                      color: 'grey.300',
-                      fontWeight: 600,
-                      fontSize: '1rem',
-                      textTransform: 'none',
-                      px: 3,
-                      py: 1.2,
-                      borderRadius: 2,
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        color: 'primary.main',
-                        bgcolor: 'rgba(96, 165, 250, 0.15)',
-                        transform: 'translateY(-2px)'
-                      }
-                    }}
-                  >
-                    {item.label}
-                  </Button>
-                ))
-              )}
-            </Box>
+        {/* Desktop links */}
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          {/* Desktop — hidden on mobile via CSS below */}
+          <div className="kd-nav-desktop" style={{ display: 'flex', gap: 4 }}>
+            {isLegal ? (
+              <NavBtn label="← Startseite" onClick={() => navigate('/')} />
+            ) : (
+              menuItems.map(item => (
+                <NavBtn key={item.id} label={item.label} onClick={() => scrollTo(item.id)} />
+              ))
+            )}
+          </div>
 
-            {/* Mobile Menu Button */}
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="end"
-              onClick={handleDrawerToggle}
-              sx={{ 
-                display: { md: 'none' },
-                color: 'grey.300',
-                '&:hover': {
-                  bgcolor: 'rgba(96, 165, 250, 0.1)',
-                  color: 'primary.main'
-                }
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Toolbar>
-        </Container>
-      </AppBar>
+          {/* Hamburger — mobile only */}
+          <button
+            className="kd-nav-hamburger"
+            onClick={() => setOpen(true)}
+            aria-label="Menü öffnen"
+            style={{
+              display: 'none', background: 'none', border: `1px solid rgba(255,255,255,0.12)`,
+              borderRadius: 2, padding: '7px 10px', cursor: 'pointer',
+              color: C.white, flexDirection: 'column', gap: 4,
+            }}
+          >
+            <span style={{ display: 'block', width: 18, height: 1.5, background: C.white }} />
+            <span style={{ display: 'block', width: 18, height: 1.5, background: C.white }} />
+            <span style={{ display: 'block', width: 12, height: 1.5, background: C.cyan }} />
+          </button>
+        </div>
+      </nav>
 
-      {/* Mobile Drawer */}
-      <Drawer
-        variant="temporary"
-        anchor="right"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true, // Better mobile performance
+      {/* ── MOBILE DRAWER ── */}
+      {/* Overlay */}
+      <div
+        onClick={() => setOpen(false)}
+        style={{
+          position: 'fixed', inset: 0, zIndex: 600,
+          background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)',
+          opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none',
+          transition: 'opacity 0.25s',
         }}
-        sx={{
-          display: { xs: 'block', md: 'none' },
-          '& .MuiDrawer-paper': { 
-            boxSizing: 'border-box', 
-            width: 280,
-            bgcolor: 'transparent',
-            border: 'none'
-          },
-        }}
-      >
-        {drawer}
-      </Drawer>
+      />
+      {/* Panel */}
+      <div style={{
+        position: 'fixed', top: 0, right: 0, bottom: 0, zIndex: 700,
+        width: 280,
+        background: '#080808',
+        borderLeft: `1px solid ${C.cbord}`,
+        transform: open ? 'translateX(0)' : 'translateX(100%)',
+        transition: 'transform 0.3s cubic-bezier(0.4,0,0.2,1)',
+        display: 'flex', flexDirection: 'column',
+      }}>
+        {/* Drawer header */}
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0 24px', height: 64,
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+        }}>
+          <span style={{ fontFamily: font.mono, fontSize: '0.65rem', color: C.cyan, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+            Navigation
+          </span>
+          <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666', fontSize: '1.2rem', padding: 4 }}>
+            ✕
+          </button>
+        </div>
+
+        {/* Drawer links */}
+        <nav style={{ padding: '24px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {isLegal ? (
+            <DrawerBtn label="← Startseite" onClick={() => { navigate('/'); setOpen(false); }} />
+          ) : (
+            menuItems.map(item => (
+              <DrawerBtn key={item.id} label={item.label} onClick={() => scrollTo(item.id)} />
+            ))
+          )}
+        </nav>
+
+        {/* Drawer footer */}
+        <div style={{ marginTop: 'auto', padding: '24px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <div style={{ fontFamily: font.sans, fontSize: '0.82rem', fontWeight: 600, color: C.white, marginBottom: 4 }}>
+            Kürsat Darcan<span style={{ color: C.cyan }}>.</span>
+          </div>
+          <div style={{ fontFamily: font.mono, fontSize: '0.6rem', color: '#555', letterSpacing: '0.06em' }}>
+            Junior Softwareentwickler
+          </div>
+        </div>
+      </div>
+
+      {/* Responsive styles */}
+      <style>{`
+        @media (max-width: 768px) {
+          .kd-nav-desktop { display: none !important; }
+          .kd-nav-hamburger { display: flex !important; }
+        }
+      `}</style>
     </>
   );
 };
+
+// ── Small helpers ──────────────────────────────────────────────────
+function NavBtn({ label, onClick }: { label: string; onClick: () => void }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <button onClick={onClick}
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{
+        fontFamily: font.mono, fontSize: '0.68rem', letterSpacing: '0.08em',
+        textTransform: 'uppercase', padding: '8px 16px', borderRadius: 2,
+        background: 'none', border: 'none', cursor: 'pointer',
+        color: hov ? C.cyan : C.grey,
+        transition: 'color 0.2s',
+        position: 'relative',
+      }}
+    >
+      {hov && <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', fontSize: '0.5rem', color: C.cyan }}>// </span>}
+      {label}
+    </button>
+  );
+}
+
+function DrawerBtn({ label, onClick }: { label: string; onClick: () => void }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <button onClick={onClick}
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{
+        fontFamily: font.mono, fontSize: '0.75rem', letterSpacing: '0.08em',
+        textTransform: 'uppercase', padding: '14px 16px', borderRadius: 2,
+        background: hov ? 'rgba(0,212,255,0.06)' : 'none',
+        border: hov ? '1px solid rgba(0,212,255,0.18)' : '1px solid transparent',
+        cursor: 'pointer', color: hov ? C.cyan : '#aaa',
+        textAlign: 'left', width: '100%',
+        transition: 'all 0.2s',
+        transform: hov ? 'translateX(6px)' : 'translateX(0)',
+      }}
+    >
+      {label}
+    </button>
+  );
+}
 
 export default Navbar;
