@@ -43,7 +43,7 @@ function SectionLabel({ index, text }: { index: string; text: string }) {
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <div style={{
-      fontFamily: font.sans, fontSize: "clamp(2.6rem,4vw,4rem)",
+      fontFamily: font.sans, fontSize: "clamp(2.6rem,4vw,5.5rem)",
       fontWeight: 700, letterSpacing: "-0.035em", color: C.white,
       marginBottom: 64, lineHeight: 1,
     }}>
@@ -68,6 +68,7 @@ function TimelineCard({
 
   const card = (
     <div
+      className="kd-tl-card"
       style={{
         background: C.bg3,
         border: "1px solid rgba(255,255,255,0.05)",
@@ -85,7 +86,7 @@ function TimelineCard({
         (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
       }}
     >
-      <div style={{ fontFamily: font.sans, fontSize: "0.92rem", fontWeight: 600, color: C.white, marginBottom: 3 }}>
+      <div style={{ fontFamily: font.sans, fontSize: "clamp(0.92rem,1.1vw,1.1rem)", fontWeight: 600, color: C.white, marginBottom: 3 }}>
         {item.company}
       </div>
       <div style={{ fontFamily: font.mono, fontSize: "0.62rem", color: accentColor, letterSpacing: "0.05em", marginBottom: 6 }}>
@@ -100,7 +101,7 @@ function TimelineCard({
   );
 
   const mid = (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 16 }}>
+    <div className="kd-tl-mid" style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 16 }}>
       <div style={{
         width: isMain ? 16 : 12, height: isMain ? 16 : 12, borderRadius: "50%",
         border: `2px solid ${accentColor}`,
@@ -119,8 +120,8 @@ function TimelineCard({
   );
 
   return (
-    <div ref={ref} style={{ display: "grid", gridTemplateColumns: "1fr 130px 1fr", gap: "0 8px", marginBottom: 48, alignItems: "start" }}>
-      {isLeft ? <>{card}{mid}<div /></> : <><div />{mid}{card}</>}
+    <div ref={ref} className="kd-tl-row">
+      {isLeft ? <>{card}{mid}<div className="kd-tl-empty" /></> : <><div className="kd-tl-empty" />{mid}{card}</>}
     </div>
   );
 }
@@ -159,10 +160,10 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         <div style={{ fontFamily: font.mono, fontSize: "0.58rem", color: C.cyan, letterSpacing: "0.05em", marginBottom: 7 }}>
           ▶ {project.category}
         </div>
-        <div style={{ fontFamily: font.sans, fontSize: "1.05rem", fontWeight: 600, color: C.white, marginBottom: 7 }}>
+        <div style={{ fontFamily: font.sans, fontSize: "clamp(1.05rem,1.2vw,1.25rem)", fontWeight: 600, color: C.white, marginBottom: 7 }}>
           {project.title}
         </div>
-        <div style={{ fontFamily: font.sans, fontSize: "0.72rem", color: C.grey, lineHeight: 1.8, marginBottom: 12 }}>
+        <div style={{ fontFamily: font.sans, fontSize: "clamp(0.72rem,0.85vw,0.9rem)", color: C.grey, lineHeight: 1.8, marginBottom: 12 }}>
           {project.desc}
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 12 }}>
@@ -202,6 +203,48 @@ function Main() {
         @keyframes gridPulse{0%,100%{opacity:.5;}50%{opacity:1;}}
         @keyframes orbFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-40px);}}
         @keyframes blink{0%,100%{opacity:1;}50%{opacity:.15;}}
+
+        .kd-hero-grid{display:grid;grid-template-columns:55% 45%;align-items:center;gap:48px;padding:100px 60px 60px;max-width:1280px;margin:0 auto;position:relative;z-index:2;}
+        .kd-section-inner{padding:120px 60px;max-width:1280px;margin:0 auto;}
+        .kd-proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:960px;}
+        .kd-tl-row{display:grid;grid-template-columns:1fr 130px 1fr;gap:0 8px;margin-bottom:48px;align-items:start;}
+        .kd-stack-cols{padding-left:18px;display:grid;grid-template-columns:1fr 1fr;column-gap:16px;}
+        .kd-contact-inner{padding:120px 60px;max-width:680px;margin:0 auto;text-align:center;position:relative;z-index:2;width:100%;}
+
+        @media(min-width:1400px){
+          html{font-size:112%;}
+          .kd-hero-grid{padding:120px 80px 80px;gap:64px;max-width:1440px;}
+          .kd-section-inner{padding:140px 80px;max-width:1440px;}
+          .kd-proj-grid{max-width:1100px;gap:28px;}
+          .kd-contact-inner{padding:140px 80px;max-width:780px;}
+          .kd-tl-row{margin-bottom:56px;}
+        }
+
+        @media(min-width:1800px){
+          html{font-size:120%;}
+          .kd-hero-grid{padding:140px 100px 100px;gap:80px;}
+          .kd-section-inner{padding:160px 100px;}
+          .kd-contact-inner{padding:160px 100px;}
+        }
+
+        @media(max-width:900px){
+          .kd-hero-grid{grid-template-columns:1fr;padding:80px 24px 48px;gap:36px;}
+          .kd-code-block{display:none;}
+          .kd-section-inner{padding:64px 24px;}
+          .kd-proj-grid{grid-template-columns:1fr;}
+          .kd-tl-row{display:block;margin-bottom:16px;}
+          .kd-tl-mid,.kd-tl-empty{display:none;}
+          .kd-tl-card{text-align:left!important;margin-bottom:12px;}
+          .kd-stack-cols{grid-template-columns:1fr;}
+          .kd-contact-inner{padding:64px 24px;}
+        }
+
+        @media(max-width:480px){
+          html{font-size:95%;}
+          .kd-hero-grid{padding:72px 16px 40px;}
+          .kd-section-inner{padding:48px 16px;}
+          .kd-contact-inner{padding:48px 16px;}
+        }
       `;
       document.head.appendChild(style);
     }
@@ -216,9 +259,7 @@ function Main() {
       <section
         id="about"
         style={{
-          minHeight: "100vh", padding: "100px 60px 60px",
-          display: "grid", gridTemplateColumns: "55% 45%",
-          alignItems: "center", gap: 48,
+          minHeight: "100vh",
           background: C.bg, position: "relative", overflow: "hidden",
         }}
       >
@@ -228,6 +269,8 @@ function Main() {
         <div style={{ position: "absolute", top: -100, right: 100, width: 500, height: 500,
           borderRadius: "50%", background: "radial-gradient(circle,rgba(0,212,255,0.06) 0%,transparent 65%)",
           pointerEvents: "none", animation: "orbFloat 10s ease-in-out infinite" }} />
+
+        <div className="kd-hero-grid">
 
         <div style={{ position: "relative", zIndex: 2 }}>
           <div style={{
@@ -241,18 +284,18 @@ function Main() {
             Open to Work
           </div>
 
-          <h1 style={{ fontFamily: font.sans, fontSize: "clamp(4rem,6vw,6rem)", fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.04em", color: C.white, marginBottom: 14 }}>
+          <h1 style={{ fontFamily: font.sans, fontSize: "clamp(4rem,6vw,8rem)", fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.04em", color: C.white, marginBottom: 14 }}>
             Kürsat<br />
             <span style={{ color: C.cyan }}>Darcan</span>
           </h1>
 
-          <div style={{ fontFamily: font.mono, fontSize: "0.8rem", color: C.grey2, marginBottom: 28, letterSpacing: "0.03em" }}>
+          <div style={{ fontFamily: font.mono, fontSize: "clamp(0.8rem,1vw,1rem)", color: C.grey2, marginBottom: 28, letterSpacing: "0.03em" }}>
             Junior Softwareentwickler
             <span style={{ color: C.cyan, margin: "0 8px" }}>/</span>
             B.Sc. Wirtschaftsinformatik
           </div>
 
-          <div style={{ fontFamily: font.sans, fontSize: "0.86rem", lineHeight: 1.9, color: C.grey2, maxWidth: 520, marginBottom: 32, padding: "16px 20px", background: "rgba(0,212,255,0.03)", border: "1px solid rgba(0,212,255,0.08)", borderRadius: 3 }}>
+          <div style={{ fontFamily: font.sans, fontSize: "clamp(0.86rem,1vw,1.05rem)", lineHeight: 1.9, color: C.grey2, maxWidth: 520, marginBottom: 32, padding: "16px 20px", background: "rgba(0,212,255,0.03)", border: "1px solid rgba(0,212,255,0.08)", borderRadius: 3 }}>
             Qualifizierter Absolvent mit abgeschlossenem Bachelorstudium der
             Wirtschaftsinformatik, Schwerpunkt Software Engineering. 3 Jahre
             Berufserfahrung bei Hyand Solutions GmbH - Oracle APEX, PL/SQL
@@ -308,7 +351,7 @@ function Main() {
         </div>
 
         <div style={{ position: "relative", zIndex: 2 }}>
-          <div style={{ background: "#0d0d0d", border: "1px solid rgba(0,212,255,0.15)", borderRadius: 6, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.45)" }}>
+          <div style={{ background: "#0d0d0d", border: "1px solid rgba(0,212,255,0.15)", borderRadius: 6, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.45)" }} className="kd-code-block">
             <div style={{ background: "#161616", padding: "9px 16px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff5f57", display: "inline-block", flexShrink: 0 }} />
               <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#febc2e", display: "inline-block", flexShrink: 0 }} />
@@ -317,7 +360,7 @@ function Main() {
             </div>
             <div style={{ padding: "18px 22px 14px", fontFamily: font.mono, fontSize: "0.76rem", lineHeight: 1.85 }}>
               <div style={{ color: "#858585" }}>{'{'}</div>
-              <div style={{ paddingLeft: 18, color: "#5a7a5a", fontStyle: "italic", marginBottom: 6 }}>// Kürsat Darcan – Developer Profile</div>
+              <div style={{ paddingLeft: 18, color: "#5a7a5a", fontStyle: "italic", marginBottom: 6 }}>// Kürsat Darcan - Developer Profile</div>
               <div style={{ height: 6 }} />
               <div style={{ paddingLeft: 18 }}><span style={{ color: "#9cdcfe" }}>"name"</span><span style={{ color: "#858585" }}>: </span><span style={{ color: "#ce9178" }}>"Kürsat Darcan"</span><span style={{ color: "#858585" }}>,</span></div>
               <div style={{ paddingLeft: 18 }}><span style={{ color: "#9cdcfe" }}>"degree"</span><span style={{ color: "#858585" }}>: </span><span style={{ color: "#ce9178" }}>"B.Sc. Wirtschaftsinformatik"</span><span style={{ color: "#858585" }}>,</span></div>
@@ -325,11 +368,17 @@ function Main() {
               <div style={{ paddingLeft: 18 }}><span style={{ color: "#9cdcfe" }}>"location"</span><span style={{ color: "#858585" }}>: </span><span style={{ color: "#ce9178" }}>"Moers, NRW"</span><span style={{ color: "#858585" }}>,</span></div>
               <div style={{ paddingLeft: 18 }}>
                 <span style={{ color: "#9cdcfe" }}>"stack"</span><span style={{ color: "#858585" }}>: [</span>
-                <div style={{ paddingLeft: 18 }}>
-                  <div><span style={{ color: "#ce9178" }}>"Oracle APEX"</span><span style={{ color: "#858585" }}>,</span></div>
-                  <div><span style={{ color: "#ce9178" }}>"PL/SQL"</span><span style={{ color: "#858585" }}>,</span></div>
+                <div className="kd-stack-cols">
+                  <div><span style={{ color: "#ce9178" }}>"GitHub"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"HTML/CSS"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"Java"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"JavaScript"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"MongoDB"</span><span style={{ color: "#858585" }}>,</span></div>
                   <div><span style={{ color: "#ce9178" }}>"Next.js"</span><span style={{ color: "#858585" }}>,</span></div>
-                  <div><span style={{ color: "#ce9178" }}>"TypeScript"</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"Oracle APEX"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"Oracle DB"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"PL/SQL"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"Vue.js"</span><span style={{ color: "#858585" }}>,</span></div>
                 </div>
                 <span style={{ color: "#858585" }}>],</span>
               </div>
@@ -343,31 +392,36 @@ function Main() {
             </div>
           </div>
         </div>
+        </div>{/* end kd-hero-grid */}
       </section>
 
-      <section id="education" style={{ padding: "120px 60px", background: C.bg2 }}>
+      <section id="education" style={{ background: C.bg2 }}>
+        <div className="kd-section-inner">
         <SectionLabel index="02" text="Werdegang" />
         <SectionTitle>Werdegang & Erfahrung<span style={{ color: C.cyan }}>.</span></SectionTitle>
         <div style={{ position: "relative", maxWidth: 880, margin: "0 auto" }}>
           <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 1, background: `linear-gradient(180deg,transparent,${C.cbord} 8%,${C.cbord} 92%,transparent)`, transform: "translateX(-50%)" }} />
           {timelineItems.map((item, i) => <TimelineCard key={i} item={item} index={i} />)}
         </div>
-      </section>
-
-      <section id="projects" style={{ padding: "120px 60px", background: C.bg, position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: -200, right: -200, width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(0,212,255,0.03) 0%,transparent 70%)", pointerEvents: "none" }} />
-        <SectionLabel index="03" text="Projekte" />
-        <SectionTitle>Was ich entwickelt habe.</SectionTitle>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22, maxWidth: 960 }}>
-          {projects.map((p, i) => <ProjectCard key={i} project={p} index={i} />)}
         </div>
       </section>
 
-      <section id="contact" style={{ minHeight: "100vh", padding: "120px 60px", background: C.bg2, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", overflow: "hidden" }}>
+      <section id="projects" style={{ background: C.bg, position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: -200, right: -200, width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(0,212,255,0.03) 0%,transparent 70%)", pointerEvents: "none" }} />
+        <div className="kd-section-inner">
+        <SectionLabel index="03" text="Projekte" />
+        <SectionTitle>Was ich entwickelt habe.</SectionTitle>
+        <div className="kd-proj-grid">
+          {projects.map((p, i) => <ProjectCard key={i} project={p} index={i} />)}
+        </div>
+        </div>
+      </section>
+
+      <section id="contact" style={{ minHeight: "100vh", background: C.bg2, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", bottom: -200, left: -200, width: 700, height: 700, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(0,212,255,0.03) 0%,transparent 65%)", pointerEvents: "none" }} />
-        <div style={{ maxWidth: 680, position: "relative", zIndex: 2, textAlign: "center" }}>
+        <div className="kd-contact-inner">
           <SectionLabel index="04" text="Kontakt" />
-          <h2 style={{ fontFamily: font.sans, fontSize: "clamp(3rem,5.5vw,5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.0, color: C.white, marginBottom: 18 }}>
+          <h2 style={{ fontFamily: font.sans, fontSize: "clamp(3rem,5.5vw,6.5rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.0, color: C.white, marginBottom: 18 }}>
             Bereit für<br /><span style={{ color: C.cyan }}>neue</span><br />Challenges.
           </h2>
           <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: C.grey, lineHeight: 1.85, marginBottom: 48, maxWidth: 460 }}>

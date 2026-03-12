@@ -36,8 +36,6 @@ const Navbar: React.FC = () => {
     <>
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 500,
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 48px', height: 64,
         background: C.bg,
         backdropFilter: 'blur(20px)',
         borderBottom: scrolled
@@ -45,10 +43,12 @@ const Navbar: React.FC = () => {
           : '1px solid rgba(255,255,255,0.20)',
         transition: 'border-color 0.5s',
       }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 48px', height: 58 }} className="kd-nav-inner">
         <button
           onClick={() => isLegal ? navigate('/') : scrollTo('about')}
+          className="kd-nav-logo"
           style={{
-            fontFamily: font.sans, fontWeight: 700, fontSize: '1rem',
+            fontFamily: font.sans, fontWeight: 700, fontSize: 'clamp(0.95rem,1.3vw,1.15rem)',
             color: C.white, background: 'none', border: 'none',
             cursor: 'pointer', letterSpacing: '-0.02em', padding: 0,
           }}
@@ -57,7 +57,7 @@ const Navbar: React.FC = () => {
         </button>
 
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <div className="kd-nav-desktop" style={{ display: 'flex', gap: 4 }}>
+          <div className="kd-nav-desktop" style={{ display: 'flex', gap: 2 }}>
             {isLegal ? (
               <NavBtn label="← Startseite" onClick={() => navigate('/')} />
             ) : (
@@ -81,6 +81,7 @@ const Navbar: React.FC = () => {
             <span style={{ display: 'block', width: 18, height: 1.5, background: C.white }} />
             <span style={{ display: 'block', width: 12, height: 1.5, background: C.cyan }} />
           </button>
+        </div>
         </div>
       </nav>
 
@@ -136,9 +137,14 @@ const Navbar: React.FC = () => {
       </div>
 
       <style>{`
+        .kd-nav-inner { box-sizing: border-box; }
         @media (max-width: 768px) {
           .kd-nav-desktop { display: none !important; }
           .kd-nav-hamburger { display: flex !important; }
+          .kd-nav-inner { padding: 0 20px !important; height: 54px !important; }
+        }
+        @media (min-width: 1400px) {
+          .kd-nav-inner { padding: 0 64px !important; }
         }
       `}</style>
     </>
@@ -151,8 +157,8 @@ function NavBtn({ label, onClick }: { label: string; onClick: () => void }) {
     <button onClick={onClick}
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
-        fontFamily: font.mono, fontSize: '0.68rem', letterSpacing: '0.08em',
-        textTransform: 'uppercase', padding: '8px 16px', borderRadius: 2,
+        fontFamily: font.mono, fontSize: 'clamp(0.62rem,0.9vw,0.78rem)', letterSpacing: '0.08em',
+        textTransform: 'uppercase', padding: '7px 14px', borderRadius: 2,
         background: 'none', border: 'none', cursor: 'pointer',
         color: hov ? C.cyan : C.grey,
         transition: 'color 0.2s',
