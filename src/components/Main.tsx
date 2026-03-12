@@ -369,16 +369,16 @@ function Main() {
               <div style={{ paddingLeft: 18 }}>
                 <span style={{ color: "#9cdcfe" }}>"stack"</span><span style={{ color: "#858585" }}>: [</span>
                 <div className="kd-stack-cols">
-                  <div><span style={{ color: "#ce9178" }}>"GitHub"</span><span style={{ color: "#858585" }}>,</span></div>
-                  <div><span style={{ color: "#ce9178" }}>"HTML/CSS"</span><span style={{ color: "#858585" }}>,</span></div>
-                  <div><span style={{ color: "#ce9178" }}>"Java"</span><span style={{ color: "#858585" }}>,</span></div>
-                  <div><span style={{ color: "#ce9178" }}>"JavaScript"</span><span style={{ color: "#858585" }}>,</span></div>
-                  <div><span style={{ color: "#ce9178" }}>"MongoDB"</span><span style={{ color: "#858585" }}>,</span></div>
-                  <div><span style={{ color: "#ce9178" }}>"Next.js"</span><span style={{ color: "#858585" }}>,</span></div>
-                  <div><span style={{ color: "#ce9178" }}>"Oracle APEX"</span><span style={{ color: "#858585" }}>,</span></div>
-                  <div><span style={{ color: "#ce9178" }}>"Oracle DB"</span><span style={{ color: "#858585" }}>,</span></div>
-                  <div><span style={{ color: "#ce9178" }}>"PL/SQL"</span><span style={{ color: "#858585" }}>,</span></div>
-                  <div><span style={{ color: "#ce9178" }}>"Vue.js"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"GitHub"</span><span style={{ color: "#858585" }}>, </span>
+                  <span style={{ color: "#ce9178" }}>"HTML/CSS"</span><span style={{ color: "#858585" }}>,</span></div><br />
+                  <div><span style={{ color: "#ce9178" }}>"Java"</span><span style={{ color: "#858585" }}>, </span>
+                  <span style={{ color: "#ce9178" }}>"JavaScript"</span><span style={{ color: "#858585" }}>,</span></div><br />
+                  <div><span style={{ color: "#ce9178" }}>"MongoDB"</span><span style={{ color: "#858585" }}>, </span>
+                  <span style={{ color: "#ce9178" }}>"Next.js"</span><span style={{ color: "#858585" }}>,</span></div><br />
+                  <div><span style={{ color: "#ce9178" }}>"Oracle APEX"</span><span style={{ color: "#858585" }}>, </span>
+                  <span style={{ color: "#ce9178" }}>"Oracle Datenbanken"</span><span style={{ color: "#858585" }}>,</span></div><br />
+                  <div><span style={{ color: "#ce9178" }}>"PL/SQL"</span><span style={{ color: "#858585" }}>, </span>
+                  <span style={{ color: "#ce9178" }}>"Vue.js"</span><span style={{ color: "#858585" }}>,</span></div>
                 </div>
                 <span style={{ color: "#858585" }}>],</span>
               </div>
