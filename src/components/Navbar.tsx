@@ -43,7 +43,7 @@ const Navbar: React.FC = () => {
           : '1px solid rgba(255,255,255,0.20)',
         transition: 'border-color 0.5s',
       }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 48px', height: 58 }} className="kd-nav-inner">
+        <div style={{ maxWidth: '100%', margin: '0 auto', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', height: 58 }} className="kd-nav-inner">
         <button
           onClick={() => isLegal ? navigate('/') : scrollTo('about')}
           className="kd-nav-logo"
