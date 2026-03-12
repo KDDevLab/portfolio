@@ -232,9 +232,11 @@ function Main() {
           .kd-code-block{display:none;}
           .kd-section-inner{padding:64px 24px;}
           .kd-proj-grid{grid-template-columns:1fr;}
-          .kd-tl-row{display:block;margin-bottom:16px;}
-          .kd-tl-mid,.kd-tl-empty{display:none;}
-          .kd-tl-card{text-align:left!important;margin-bottom:12px;}
+          .kd-tl-row{display:flex!important;flex-direction:column;margin-bottom:24px;}
+          .kd-tl-empty{display:none!important;}
+          .kd-tl-mid{order:1;padding-top:0!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start;gap:8px;margin-bottom:8px;}
+          .kd-tl-mid > div:last-child{margin-top:0!important;}
+          .kd-tl-card{order:2;text-align:left!important;margin-bottom:0;}
           .kd-stack-cols{grid-template-columns:1fr;}
           .kd-contact-inner{padding:64px 24px;}
         }
