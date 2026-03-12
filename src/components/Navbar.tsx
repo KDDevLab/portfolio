@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-const C = {
-  bg:    "rgba(0,0,0,0.88)",
-  cyan:  "#00d4ff",
-  cbord: "rgba(0,212,255,0.22)",
-  white: "#f2f2f2",
-  grey:  "#666",
-} as const;
-
-const font = {
-  sans: "'Space Grotesk', sans-serif",
-  mono: "'Fira Code', monospace",
-} as const;
+import { C, font } from '../lib/design';
 
 const menuItems = [
   { label: 'Profil',     id: 'about'     },
@@ -54,8 +42,8 @@ const Navbar: React.FC = () => {
         backdropFilter: 'blur(20px)',
         borderBottom: scrolled
           ? `1px solid ${C.cbord}`
-          : '1px solid rgba(255,255,255,0.04)',
-        transition: 'border-color 0.3s',
+          : '1px solid rgba(255,255,255,0.20)',
+        transition: 'border-color 0.5s',
       }}>
         <button
           onClick={() => isLegal ? navigate('/') : scrollTo('about')}

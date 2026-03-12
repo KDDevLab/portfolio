@@ -1,98 +1,8 @@
 import { useEffect, useRef } from "react";
-
-const C = {
-  bg:    "#000000",
-  bg2:   "#080808",
-  bg3:   "#0f0f0f",
-  cyan:  "#00d4ff",
-  cglow: "rgba(0,212,255,0.12)",
-  cbord: "rgba(0,212,255,0.22)",
-  white: "#f2f2f2",
-  grey:  "#666666",
-  grey2: "#aaaaaa",
-} as const;
-
-const font = {
-  sans: "'Space Grotesk', sans-serif",
-  mono: "'Fira Code', monospace",
-} as const;
-
-const skills = [
-  { label: "Oracle APEX / PL/SQL", advanced: true  },
-  { label: "HTML / CSS",           advanced: true },
-  { label: "Java",                 advanced: true },
-  { label: "JavaScript",           advanced: true },
-  { label: "GitHub",               advanced: true },
-];
-
-const stats = [
-  { label: "Abschluss",  value: "B.Sc.",   accent: "2,5",    bar: 75  },
-  { label: "Erfahrung",  value: "3",       accent: "Jahre",  bar: 55  },
-  { label: "Haupttech",  value: "Oracle",  accent: "APEX",   bar: 85  },
-  { label: "Status",     value: "Open to", accent: " Work",  bar: 100 },
-];
-
-const timelineItems = [
-  {
-    date: "06.2013 - 06.2019", side: "right" as const, type: "edu",
-    company: "Anne-Frank-Gesamtschule Rheinkamp",
-    role: "Realschulabschluss", desc: null,
-  },
-  {
-    date: "12.2017", side: "left" as const, type: "job",
-    company: "My Mediamen",
-    role: "Praktikum — Telekommunikation Technik",
-    desc: "Erwerb grundlegender Kenntnisse in der Telekommunikationsbranche und technischen Systemen.",
-  },
-  {
-    date: "08.2019 - 06.2022", side: "right" as const, type: "edu",
-    company: "Berufskolleg für Technik Moers",
-    role: "Fachabitur + Informationstechnischer Assistent",
-    desc: "Berufsabschluss nach Landesrecht NRW",
-  },
-  {
-    date: "06.2021 - 09.2021", side: "left" as const, type: "job",
-    company: "Erste Praxiserfahrungen",
-    role: "Praktika & Projekterfahrung",
-    desc: "Curv UG - Entwicklung mit Vue.js Framework\nEuroweb - Webentwicklung mit HTML & CSS",
-  },
-  {
-    date: "06.2022 - 05.2025", side: "right" as const, type: "job",
-    company: "Deutsche Post AG",
-    role: "Aushilfe / Lagerhilfe",
-    desc: "Nebentätigkeit während des Studiums",
-  },
-  {
-    date: "09.2022 - 09.2025", side: "left" as const, type: "main",
-    company: "FHDW Mettmann & Hyand Solutions GmbH",
-    role: "Dualer Student (Bachelor) + Junior Berater",
-    desc: "Wirtschaftsinformatik Software Engineering — Note 2,5\nOracle APEX-Entwicklung · PL/SQL & Datenmodellierung · Konzeption von Webanwendungen",
-  },
-  {
-    date: "09.2025 - Heute", side: "right" as const, type: "current",
-    company: "Taxifahrer (Minijob)",
-    role: "Übergangsphase", desc: null,
-  },
-];
-
-const projects = [
-  {
-    title: "Time2Meet",
-    category: "Full-Stack Development & Projektmanagement",
-    desc: "Gruppenplanungssystem für gemeinsame Aktivitäten. Entwickelt im Rahmen der Module Software Testing & DevOps sowie Software Engineering Projects.",
-    tech: ["Next.js", "TypeScript", "Cypress"],
-    github: "https://github.com/KDDevLab",
-    gradient: "linear-gradient(135deg,#00080f,#001a26)",
-  },
-  {
-    title: "Algorithmischer Handel",
-    category: "Data Analysis & ML-Modellierung",
-    desc: "Machine-Learning-Projekt zur Prognose von Aktienkursen mittels technischer Indikatoren und Rohdaten. Entwickelt für Data Analysis and Machine Learning.",
-    tech: ["Python", "Machine Learning", "Jupyter"],
-    github: "https://github.com/KDDevLab",
-    gradient: "linear-gradient(135deg,#060010,#0f0020)",
-  },
-];
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { C, font } from "../lib/design";
+import { skills, timelineItems, projects } from "../data/profile";
 
 function useScrollReveal(delay = 0) {
   const ref = useRef<HTMLDivElement>(null);
@@ -209,7 +119,7 @@ function TimelineCard({
   );
 
   return (
-    <div ref={ref} style={{ display: "grid", gridTemplateColumns: "1fr 48px 1fr", gap: "0 16px", marginBottom: 48, alignItems: "start" }}>
+    <div ref={ref} style={{ display: "grid", gridTemplateColumns: "1fr 130px 1fr", gap: "0 8px", marginBottom: 48, alignItems: "start" }}>
       {isLeft ? <>{card}{mid}<div /></> : <><div />{mid}{card}</>}
     </div>
   );
@@ -397,28 +307,47 @@ function Main() {
           </div>
         </div>
 
-        <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", gap: 14 }}>
-          {stats.map((s, i) => (
-            <div key={i}
-              style={{ background: C.bg3, border: "1px solid rgba(0,212,255,0.1)", borderRadius: 4, padding: "16px 20px", transition: "border-color 0.2s, transform 0.2s" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(0,212,255,0.3)"; (e.currentTarget as HTMLDivElement).style.transform = "translateX(6px)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(0,212,255,0.1)"; (e.currentTarget as HTMLDivElement).style.transform = "translateX(0)"; }}
-            >
-              <div style={{ fontFamily: font.mono, fontSize: "0.55rem", color: C.grey, letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: 5 }}>{s.label}</div>
-              <div style={{ fontFamily: font.sans, fontSize: "1rem", fontWeight: 600, color: C.white }}>
-                {s.value} <span style={{ color: C.cyan }}>{s.accent}</span>
-              </div>
-              <div style={{ height: 2, background: "rgba(0,212,255,0.1)", borderRadius: 2, marginTop: 8, overflow: "hidden" }}>
-                <div style={{ height: "100%", background: C.cyan, borderRadius: 2, width: `${s.bar}%`, transition: `width 1.5s ${i * 0.2}s ease-out` }} />
-              </div>
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <div style={{ background: "#0d0d0d", border: "1px solid rgba(0,212,255,0.15)", borderRadius: 6, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.45)" }}>
+            <div style={{ background: "#161616", padding: "9px 16px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff5f57", display: "inline-block", flexShrink: 0 }} />
+              <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#febc2e", display: "inline-block", flexShrink: 0 }} />
+              <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#28c840", display: "inline-block", flexShrink: 0 }} />
+              <span style={{ flex: 1, textAlign: "center", fontFamily: font.mono, fontSize: "0.58rem", color: "#666", letterSpacing: "0.05em", marginRight: 28 }}>profile.json</span>
             </div>
-          ))}
+            <div style={{ padding: "18px 22px 14px", fontFamily: font.mono, fontSize: "0.76rem", lineHeight: 1.85 }}>
+              <div style={{ color: "#858585" }}>{'{'}</div>
+              <div style={{ paddingLeft: 18, color: "#5a7a5a", fontStyle: "italic", marginBottom: 6 }}>// Kürsat Darcan – Developer Profile</div>
+              <div style={{ height: 6 }} />
+              <div style={{ paddingLeft: 18 }}><span style={{ color: "#9cdcfe" }}>"name"</span><span style={{ color: "#858585" }}>: </span><span style={{ color: "#ce9178" }}>"Kürsat Darcan"</span><span style={{ color: "#858585" }}>,</span></div>
+              <div style={{ paddingLeft: 18 }}><span style={{ color: "#9cdcfe" }}>"degree"</span><span style={{ color: "#858585" }}>: </span><span style={{ color: "#ce9178" }}>"B.Sc. Wirtschaftsinformatik"</span><span style={{ color: "#858585" }}>,</span></div>
+              <div style={{ paddingLeft: 18 }}><span style={{ color: "#9cdcfe" }}>"grade"</span><span style={{ color: "#858585" }}>: </span><span style={{ color: "#b5cea8" }}>2.5</span><span style={{ color: "#858585" }}>,</span></div>
+              <div style={{ paddingLeft: 18 }}><span style={{ color: "#9cdcfe" }}>"location"</span><span style={{ color: "#858585" }}>: </span><span style={{ color: "#ce9178" }}>"Moers, NRW"</span><span style={{ color: "#858585" }}>,</span></div>
+              <div style={{ paddingLeft: 18 }}>
+                <span style={{ color: "#9cdcfe" }}>"stack"</span><span style={{ color: "#858585" }}>: [</span>
+                <div style={{ paddingLeft: 18 }}>
+                  <div><span style={{ color: "#ce9178" }}>"Oracle APEX"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"PL/SQL"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"Next.js"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <div><span style={{ color: "#ce9178" }}>"TypeScript"</span></div>
+                </div>
+                <span style={{ color: "#858585" }}>],</span>
+              </div>
+              <div style={{ paddingLeft: 18 }}><span style={{ color: "#9cdcfe" }}>"experience"</span><span style={{ color: "#858585" }}>: </span><span style={{ color: "#ce9178" }}>"3 Jahre Hyand Solutions"</span><span style={{ color: "#858585" }}>,</span></div>
+              <div style={{ paddingLeft: 18 }}><span style={{ color: "#9cdcfe" }}>"status"</span><span style={{ color: "#858585" }}>: </span><span style={{ color: "#ce9178" }}>"open_to_work"</span></div>
+              <div style={{ color: "#858585", marginTop: 2 }}>{'}'}</div>
+            </div>
+            <div style={{ padding: "8px 22px 14px", borderTop: "1px solid rgba(255,255,255,0.04)", display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontFamily: font.mono, fontSize: "0.68rem", color: C.cyan, animation: "blink 1.5s infinite" }}>▶</span>
+              <span style={{ fontFamily: font.mono, fontSize: "0.68rem", color: C.cyan, letterSpacing: "0.06em" , animation: "blink 1.5s infinite"}}>ready_for_new_challenges </span>
+            </div>
+          </div>
         </div>
       </section>
 
       <section id="education" style={{ padding: "120px 60px", background: C.bg2 }}>
         <SectionLabel index="02" text="Werdegang" />
-        <SectionTitle>Mein Weg.</SectionTitle>
+        <SectionTitle>Werdegang & Erfahrung<span style={{ color: C.cyan }}>.</span></SectionTitle>
         <div style={{ position: "relative", maxWidth: 880, margin: "0 auto" }}>
           <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 1, background: `linear-gradient(180deg,transparent,${C.cbord} 8%,${C.cbord} 92%,transparent)`, transform: "translateX(-50%)" }} />
           {timelineItems.map((item, i) => <TimelineCard key={i} item={item} index={i} />)}
@@ -428,7 +357,7 @@ function Main() {
       <section id="projects" style={{ padding: "120px 60px", background: C.bg, position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: -200, right: -200, width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(0,212,255,0.03) 0%,transparent 70%)", pointerEvents: "none" }} />
         <SectionLabel index="03" text="Projekte" />
-        <SectionTitle>Was ich gebaut habe.</SectionTitle>
+        <SectionTitle>Was ich entwickelt habe.</SectionTitle>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22, maxWidth: 960 }}>
           {projects.map((p, i) => <ProjectCard key={i} project={p} index={i} />)}
         </div>
@@ -442,45 +371,29 @@ function Main() {
             Bereit für<br /><span style={{ color: C.cyan }}>neue</span><br />Challenges.
           </h2>
           <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: C.grey, lineHeight: 1.85, marginBottom: 48, maxWidth: 460 }}>
-            Für Anfragen bezüglich beruflicher Zusammenarbeit stehe ich gerne zur Verfügung. Ich freue mich auf spannende Projekte und neue Herausforderungen.
-          </p>
+          Offen für spannende Projekte und neue berufliche Möglichkeiten. Ich freue mich über den Austausch.          </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            {[
-              { label: "✉ Email",     href: "mailto:Darcankursat@gmail.com",          primary: false,  hcolor: C.cyan    },
-              { label: "in LinkedIn", href: "https://linkedin.com/in/kursat-darcan",  primary: false, hcolor: "#7ec8e3" },
-              { label: "⌥ GitHub",    href: "https://github.com/DKursat",             primary: false, hcolor: C.grey2   },
-            ].map(btn => (
-              <a key={btn.label} href={btn.href}
-                target={btn.primary ? undefined : "_blank"}
-                rel={btn.primary ? undefined : "noopener noreferrer"}
-                style={{
-                  fontFamily: font.mono, fontSize: "0.68rem", letterSpacing: "0.12em",
-                  textTransform: "uppercase" as const, padding: "15px 28px", borderRadius: 2,
-                  textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8,
-                  transition: "all 0.22s", cursor: "pointer",
-                  background: btn.primary ? C.cyan : "transparent",
-                  color: btn.primary ? "#000" : btn.hcolor,
-                  border: btn.primary ? `1px solid ${C.cyan}` : "1px solid rgba(255,255,255,0.12)",
-                  fontWeight: btn.primary ? 600 : 400,
-                }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget;
-                  if (btn.primary) { el.style.background = "transparent"; el.style.color = C.cyan; el.style.boxShadow = "0 0 26px rgba(0,212,255,0.22)"; }
-                  else { el.style.borderColor = btn.hcolor; }
-                  el.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget;
-                  el.style.background = btn.primary ? C.cyan : "transparent";
-                  el.style.color = btn.primary ? "#000" : btn.hcolor;
-                  el.style.transform = "translateY(0)";
-                  el.style.boxShadow = "none";
-                  el.style.borderColor = btn.primary ? C.cyan : "rgba(255,255,255,0.12)";
-                }}
-              >
-                {btn.label}
-              </a>
-            ))}
+            <a href="mailto:Darcankursat@gmail.com"
+              style={{ fontFamily: font.mono, fontSize: "0.68rem", letterSpacing: "0.12em", textTransform: "uppercase", padding: "15px 28px", borderRadius: 2, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, transition: "all 0.22s", color: C.cyan, border: "1px solid rgba(255,255,255,0.12)" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = C.cyan; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
+              ✉ Email
+            </a>
+            <a href="https://linkedin.com/in/kursat-darcan" target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: font.mono, fontSize: "0.68rem", letterSpacing: "0.12em", textTransform: "uppercase", padding: "15px 28px", borderRadius: 2, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, transition: "all 0.22s", color: "#7ec8e3", border: "1px solid rgba(255,255,255,0.12)" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "#7ec8e3"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
+              <LinkedInIcon style={{ fontSize: "1rem" }} /> LinkedIn
+            </a>
+            <a href="https://github.com/DKursat" target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: font.mono, fontSize: "0.68rem", letterSpacing: "0.12em", textTransform: "uppercase", padding: "15px 28px", borderRadius: 2, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, transition: "all 0.22s", color: C.grey2, border: "1px solid rgba(255,255,255,0.12)" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = C.grey2; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
+              <GitHubIcon style={{ fontSize: "1rem" }} /> GitHub
+            </a>
           </div>
         </div>
       </section>

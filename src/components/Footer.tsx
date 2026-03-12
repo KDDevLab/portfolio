@@ -1,16 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
-
-const font = {
-  sans: "'Space Grotesk', sans-serif",
-  mono: "'Fira Code', monospace",
-} as const;
-
-const C = {
-  cyan:  "#00d4ff",
-  white: "#f2f2f2",
-  grey:  "#555",
-} as const;
+import { C, font } from '../lib/design';
 
 function Footer() {
   return (

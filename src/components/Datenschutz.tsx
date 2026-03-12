@@ -1,17 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-
-const C = {
-  bg:    "#000",
-  cyan:  "#00d4ff",
-  white: "#f2f2f2",
-  grey:  "#666",
-  grey2: "#aaa",
-} as const;
-
-const font = {
-  sans: "'Space Grotesk', sans-serif",
-  mono: "'Fira Code', monospace",
-} as const;
+import { C, font } from '../lib/design';
 
 function Datenschutz() {
   const navigate = useNavigate();
