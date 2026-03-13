@@ -380,7 +380,7 @@ function Main() {
                   <div><span style={{ color: "#ce9178" }}>"Oracle APEX"</span><span style={{ color: "#858585" }}>, </span>
                   <span style={{ color: "#ce9178" }}>"Oracle Datenbanken"</span><span style={{ color: "#858585" }}>,</span></div><br />
                   <div><span style={{ color: "#ce9178" }}>"PL/SQL"</span><span style={{ color: "#858585" }}>, </span>
-                  <span style={{ color: "#ce9178" }}>"Vue.js"</span><span style={{ color: "#858585" }}>,</span></div>
+                  <span style={{ color: "#ce9178" }}>"Vue.js"</span></div>
                 </div>
                 <span style={{ color: "#858585" }}>],</span>
               </div>
