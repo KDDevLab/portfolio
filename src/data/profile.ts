@@ -43,9 +43,14 @@ export const timelineItems = [
     desc: "Wirtschaftsinformatik Software Engineering — Note 2,5\nOracle APEX-Entwicklung · PL/SQL & Datenmodellierung · Konzeption von Webanwendungen",
   },
   {
-    date: "09.2025 - Heute", side: "right" as const, type: "current",
+    date: "09.2025 - 05.2026", side: "right" as const, type: "job",
     company: "Taxifahrer (Minijob)",
     role: "Übergangsphase", desc: null,
+  },
+  {
+    date: "05.2026 - Heute", side: "left" as const, type: "current",
+    company: "Hyand Solutions GmbH",
+    role: "Berater", desc: "Oracle APEX-Entwicklung · PL/SQL & Datenmodellierung · Konzeption von Webanwendungen",
   },
 ];
 
