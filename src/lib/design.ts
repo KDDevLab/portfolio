@@ -1,16 +1,17 @@
 export const C = {
-  bg:    "#000000",
-  bg2:   "#080808",
-  bg3:   "#0f0f0f",
-  cyan:  "#00d4ff",
-  cglow: "rgba(0,212,255,0.12)",
-  cbord: "rgba(0,212,255,0.22)",
-  white: "#f2f2f2",
-  grey:  "#bbb",
-  grey2: "#bbb",
+  bg: "#0A0E17",
+  surface: "#121826",
+  surface2: "#161F30",
+  border: "#232C3D",
+  borderStrong: "#34405A",
+  text: "#EAF0F7",
+  textMuted: "#8B96A8",
+  blue: "#4C9FE8",
+  amber: "#E8B339",
 } as const;
 
 export const font = {
   sans: "'Space Grotesk', sans-serif",
-  mono: "'Fira Code', monospace",
+  body: "'Inter', system-ui, sans-serif",
+  mono: "'JetBrains Mono', 'SFMono-Regular', monospace",
 } as const;

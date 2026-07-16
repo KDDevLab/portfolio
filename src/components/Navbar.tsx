@@ -1,191 +1,114 @@
-import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { C, font } from '../lib/design';
+import { useLang } from '../lib/useLang';
 
-const menuItems = [
-  { label: 'Profil',     id: 'about'     },
-  { label: 'Werdegang',  id: 'education' },
-  { label: 'Projekte',   id: 'projects'  },
-  { label: 'Kontakt',    id: 'contact'   },
-];
-
-const Navbar: React.FC = () => {
-  const location  = useLocation();
-  const navigate  = useNavigate();
-  const isLegal   = location.pathname === '/impressum' || location.pathname === '/datenschutz';
-  const [open, setOpen]       = useState(false);
+function Navbar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { lang, setLang } = useLang();
+  const isLegal = location.pathname === '/impressum' || location.pathname === '/datenschutz';
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
-
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    setOpen(false);
-  };
-
   return (
     <>
-      <nav style={{
+      <div style={{ height: 66 }} />
+      <header style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 500,
-        background: C.bg,
-        backdropFilter: 'blur(20px)',
-        borderBottom: scrolled
-          ? `1px solid ${C.cbord}`
-          : '1px solid rgba(255,255,255,0.20)',
-        transition: 'border-color 0.5s',
+        background: scrolled ? `${C.bg}b3` : C.bg,
+        backdropFilter: scrolled ? 'blur(10px)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(10px)' : 'none',
+        borderBottom: `1px solid ${scrolled ? C.border : 'transparent'}`,
+        transition: 'background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease',
       }}>
-        <div style={{ maxWidth: '100%', margin: '0 auto', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', height: 58 }} className="kd-nav-inner">
-        <button
-          onClick={() => isLegal ? navigate('/') : scrollTo('about')}
-          className="kd-nav-logo"
-          style={{
-            fontFamily: font.sans, fontWeight: 700, fontSize: 'clamp(0.95rem,1.3vw,1.15rem)',
-            color: C.white, background: 'none', border: 'none',
-            cursor: 'pointer', letterSpacing: '-0.02em', padding: 0,
-          }}
-        >
-          Kürsat Darcan<span style={{ color: C.cyan }}>.</span>
-        </button>
-
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <div className="kd-nav-desktop" style={{ display: 'flex', gap: 2 }}>
-            {isLegal ? (
-              <NavBtn label="← Startseite" onClick={() => navigate('/')} />
-            ) : (
-              menuItems.map(item => (
-                <NavBtn key={item.id} label={item.label} onClick={() => scrollTo(item.id)} />
-              ))
-            )}
-          </div>
-
+        <div className="nav-inner" style={{
+          display: 'flex', alignItems: 'center', gap: 12,
+          maxWidth: 1080, margin: '0 auto', padding: '18px 20px',
+        }}>
           <button
-            className="kd-nav-hamburger"
-            onClick={() => setOpen(true)}
-            aria-label="Menü öffnen"
+            onClick={() => isLegal ? navigate('/') : window.scrollTo({ top: 0, behavior: 'smooth' })}
             style={{
-              display: 'none', background: 'none', border: `1px solid rgba(255,255,255,0.12)`,
-              borderRadius: 2, padding: '7px 10px', cursor: 'pointer',
-              color: C.white, flexDirection: 'column', gap: 4,
+              fontFamily: font.sans, fontWeight: 600, fontSize: '1.05rem',
+              color: C.text, background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+              flexShrink: 0,
             }}
           >
-            <span style={{ display: 'block', width: 18, height: 1.5, background: C.white }} />
-            <span style={{ display: 'block', width: 18, height: 1.5, background: C.white }} />
-            <span style={{ display: 'block', width: 12, height: 1.5, background: C.cyan }} />
+            Kürsat Darcan
           </button>
-        </div>
-        </div>
-      </nav>
 
-      <div
-        onClick={() => setOpen(false)}
-        style={{
-          position: 'fixed', inset: 0, zIndex: 600,
-          background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)',
-          opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none',
-          transition: 'opacity 0.25s',
-        }}
-      />
-      <div style={{
-        position: 'fixed', top: 0, right: 0, bottom: 0, zIndex: 700,
-        width: 280,
-        background: '#080808',
-        borderLeft: `1px solid ${C.cbord}`,
-        transform: open ? 'translateX(0)' : 'translateX(100%)',
-        transition: 'transform 0.3s cubic-bezier(0.4,0,0.2,1)',
-        display: 'flex', flexDirection: 'column',
-      }}>
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '0 24px', height: 64,
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
-        }}>
-          <span style={{ fontFamily: font.mono, fontSize: '0.65rem', color: C.cyan, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-            Navigation
-          </span>
-          <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666', fontSize: '1.2rem', padding: 4 }}>
-            ✕
-          </button>
-        </div>
-
-        <nav style={{ padding: '24px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
-          {isLegal ? (
-            <DrawerBtn label="← Startseite" onClick={() => { navigate('/'); setOpen(false); }} />
-          ) : (
-            menuItems.map(item => (
-              <DrawerBtn key={item.id} label={item.label} onClick={() => scrollTo(item.id)} />
-            ))
+          {!isLegal && (
+            <span className="nav-status" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontFamily: font.mono, fontWeight: 400, fontSize: '0.72rem', color: C.textMuted,
+              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+            }}>
+              <span className="status-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: C.amber, display: 'inline-block', flexShrink: 0 }} />
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {lang === 'de' ? 'offen für neue Herausforderungen' : 'open to new opportunities'}
+              </span>
+            </span>
           )}
-        </nav>
 
-        <div style={{ marginTop: 'auto', padding: '24px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-          <div style={{ fontFamily: font.sans, fontSize: '0.82rem', fontWeight: 600, color: C.white, marginBottom: 4 }}>
-            Kürsat Darcan<span style={{ color: C.cyan }}>.</span>
-          </div>
-          <div style={{ fontFamily: font.mono, fontSize: '0.6rem', color: '#555', letterSpacing: '0.06em' }}>
-            Junior Softwareentwickler
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginLeft: 'auto', flexShrink: 0 }}>
+            {isLegal && (
+              <NavBtn label={lang === 'de' ? '← Startseite' : '← Home'} onClick={() => navigate('/')} />
+            )}
+
+            <div style={{
+              display: 'inline-flex', border: `1px solid ${C.border}`, borderRadius: 999,
+              overflow: 'hidden', fontFamily: font.mono, fontSize: '0.78rem',
+            }}>
+              <button
+                onClick={() => setLang('de')}
+                style={{
+                  background: lang === 'de' ? C.surface2 : 'transparent', border: 'none',
+                  color: lang === 'de' ? C.amber : C.textMuted, padding: '6px 12px', cursor: 'pointer',
+                }}
+              >DE</button>
+              <button
+                onClick={() => setLang('en')}
+                style={{
+                  background: lang === 'en' ? C.surface2 : 'transparent', border: 'none',
+                  color: lang === 'en' ? C.amber : C.textMuted, padding: '6px 12px', cursor: 'pointer',
+                }}
+              >EN</button>
+            </div>
           </div>
         </div>
-      </div>
+      </header>
 
       <style>{`
-        .kd-nav-inner { box-sizing: border-box; }
-        @media (max-width: 768px) {
-          .kd-nav-desktop { display: none !important; }
-          .kd-nav-hamburger { display: flex !important; }
-          .kd-nav-inner { padding: 0 20px !important; height: 54px !important; }
+        @keyframes statusBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+        .status-dot { animation: statusBlink 1.6s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .status-dot { animation: none; }
         }
-        @media (min-width: 1400px) {
-          .kd-nav-inner { padding: 0 64px !important; }
+        @media (max-width: 640px){
+          .nav-status{ display: none !important; }
         }
       `}</style>
     </>
   );
-};
-
-function NavBtn({ label, onClick }: { label: string; onClick: () => void }) {
-  const [hov, setHov] = useState(false);
-  return (
-    <button onClick={onClick}
-      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-      style={{
-        fontFamily: font.mono, fontSize: 'clamp(0.62rem,0.9vw,0.78rem)', letterSpacing: '0.08em',
-        textTransform: 'uppercase', padding: '7px 14px', borderRadius: 2,
-        background: 'none', border: 'none', cursor: 'pointer',
-        color: hov ? C.cyan : C.grey,
-        transition: 'color 0.2s',
-        position: 'relative',
-      }}
-    >
-      {hov && <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', fontSize: '0.5rem', color: C.cyan }}>// </span>}
-      {label}
-    </button>
-  );
 }
 
-function DrawerBtn({ label, onClick }: { label: string; onClick: () => void }) {
-  const [hov, setHov] = useState(false);
+function NavBtn({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <button onClick={onClick}
-      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+    <button
+      onClick={onClick}
       style={{
-        fontFamily: font.mono, fontSize: '0.75rem', letterSpacing: '0.08em',
-        textTransform: 'uppercase', padding: '14px 16px', borderRadius: 2,
-        background: hov ? 'rgba(0,212,255,0.06)' : 'none',
-        border: hov ? '1px solid rgba(0,212,255,0.18)' : '1px solid transparent',
-        cursor: 'pointer', color: hov ? C.cyan : '#aaa',
-        textAlign: 'left', width: '100%',
-        transition: 'all 0.2s',
-        transform: hov ? 'translateX(6px)' : 'translateX(0)',
+        fontFamily: font.mono, fontSize: '0.78rem', letterSpacing: '0.04em',
+        padding: '7px 14px', borderRadius: 4, background: 'none', border: 'none',
+        cursor: 'pointer', color: C.textMuted, transition: 'color 0.2s',
       }}
+      onMouseEnter={e => (e.currentTarget.style.color = C.blue)}
+      onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
     >
       {label}
     </button>
