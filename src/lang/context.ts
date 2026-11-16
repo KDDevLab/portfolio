@@ -1,7 +1,6 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 
 export type Lang = 'de' | 'en';
-export type Text = string | { de: string; en: string };
 
 export interface LangContextValue {
   lang: Lang;
@@ -13,6 +12,4 @@ export const LangContext = createContext<LangContextValue>({
   setLang: () => {},
 });
 
-export function pick(field: Text, lang: Lang): string {
-  return typeof field === 'string' ? field : field[lang];
-}
+export const useLang = () => useContext(LangContext);

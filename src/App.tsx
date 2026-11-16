@@ -1,29 +1,51 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { LangProvider } from './lib/i18n'
-import Navbar from './components/Navbar'
-import Main from './components/Main'
-import Footer from './components/Footer'
-import Impressum from './components/Impressum'
-import Datenschutz from './components/Datenschutz'
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { LangProvider } from './lang/LangProvider';
+import Nav from './components/Nav';
+import Footer from './components/Footer';
+import CommandPalette from './components/CommandPalette';
+import Toast from './components/Toast';
+import Home from './pages/Home';
+import Impressum from './pages/Impressum';
+import Datenschutz from './pages/Datenschutz';
+
+/** Bei Seitenwechsel nach oben, bei Anker zum Abschnitt scrollen. */
+function ScrollManager() {
+  const { pathname, hash, key } = useLocation();
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    const target = () => document.getElementById(hash.slice(1));
+    target()?.scrollIntoView();
+    // Der Hero bekommt seine Höhe erst nach dem Laden der Schrift – danach nachjustieren
+    let raf = 0;
+    document.fonts.ready.then(() => {
+      raf = requestAnimationFrame(() => target()?.scrollIntoView());
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [pathname, hash, key]);
+  return null;
+}
 
 function App() {
   return (
     <LangProvider>
-      <Router>
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-          <Navbar />
-          <main style={{ flex: 1 }}>
-            <Routes>
-              <Route path="/" element={<Main />} />
-              <Route path="/impressum" element={<Impressum />} />
-              <Route path="/datenschutz" element={<Datenschutz />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </Router>
+      <BrowserRouter>
+        <ScrollManager />
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/impressum" element={<Impressum />} />
+          <Route path="/datenschutz" element={<Datenschutz />} />
+        </Routes>
+        <Footer />
+        <CommandPalette />
+        <Toast />
+      </BrowserRouter>
     </LangProvider>
-  )
+  );
 }
 
-export default App
+export default App;
